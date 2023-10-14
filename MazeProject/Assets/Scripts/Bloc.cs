@@ -8,16 +8,16 @@ public class Bloc : MonoBehaviour
     private GameObject interieur;
 
     [SerializeField]
-    private GameObject murHaut;
+    private GameObject murNord;
 
     [SerializeField]
-    private GameObject murBas;
+    private GameObject murSud;
 
     [SerializeField]
-    private GameObject murGauche;
+    private GameObject murOuest;
 
     [SerializeField]
-    private GameObject murDroite;
+    private GameObject murEst;
 
     private bool estExplore = false;
 
@@ -33,6 +33,7 @@ public class Bloc : MonoBehaviour
         
     }
 
+    // Est appelé quand on explore un bloc, on rend invisible l'intérieur du bloc
     public void Explore()
     {
         interieur.SetActive(false);
@@ -44,23 +45,24 @@ public class Bloc : MonoBehaviour
         return estExplore;
     }
 
-    public void RemoveMurHaut()
+    // Cacher un des 4 murs
+    public void RemoveMurNord()
     {
-        murHaut.SetActive(false);
+        murNord.SetActive(false);
     }
 
-    public void RemoveMurBas()
+    public void RemoveMurSud()
     {
-        murBas.SetActive(false);
+        murSud.SetActive(false);
     }
 
-    public void RemoveMurGauche()
+    public void RemoveMurOuest()
     {
-        murGauche.SetActive(false);
+        murOuest.SetActive(false);
     }
 
-    public void RemoveMurDroite()
+    public void RemoveMurEst()
     {
-        murDroite.SetActive(false);
+        murEst.SetActive(false);
     }
 }

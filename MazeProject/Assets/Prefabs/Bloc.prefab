@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6925873623361333341}
   - component: {fileID: 765342213756985992}
   m_Layer: 0
-  m_Name: MurBas
+  m_Name: MurOuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 446398405296494508}
   - component: {fileID: 842339691469561621}
   m_Layer: 0
-  m_Name: MurDroite
+  m_Name: MurSud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 3509977381500201926}
   - component: {fileID: 4314348645880894604}
   m_Layer: 0
-  m_Name: MurGauche
+  m_Name: MurNord
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 9105120307055416993}
   - component: {fileID: 6201434596519383115}
   m_Layer: 0
-  m_Name: MurHaut
+  m_Name: MurEst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,10 +470,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interieur: {fileID: 7719931059929612095}
-  murHaut: {fileID: 3613749330450361406}
-  murBas: {fileID: 784775752995603404}
-  murGauche: {fileID: 1789301121643376094}
-  murDroite: {fileID: 994171971437801984}
+  murNord: {fileID: 1789301121643376094}
+  murSud: {fileID: 994171971437801984}
+  murOuest: {fileID: 784775752995603404}
+  murEst: {fileID: 3613749330450361406}
 --- !u!1 &7719931059929612095
 GameObject:
   m_ObjectHideFlags: 0

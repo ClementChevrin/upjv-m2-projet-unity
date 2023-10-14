@@ -5,17 +5,18 @@ using UnityEngine;
 public class Maze : MonoBehaviour
 {
     [SerializeField]
-    private Bloc bloc;
+    private Bloc bloc; //pour appeler la preFab
 
     System.Random random = new();
 
-    private int taille = 25;
+    private const int taille = 100; //pour l'instant on change la taille ici
 
     private Bloc[,] grille;
 
     // Start is called before the first frame update
     void Start()
     {
+        //On crée la grille et on la remplie de la prefab Bloc
         grille = new Bloc[taille, taille];
         for (int x = 0; x < taille; ++x)
         {
@@ -25,10 +26,13 @@ public class Maze : MonoBehaviour
                 grille[x, z] = newBloc;
             }
         }
+
+        //On choisit un bloc de départ
         int startX = random.Next(taille);
         int startZ = random.Next(taille);
         //Debug.Log("startX: " + startX);
         //Debug.Log("startZ: " + startZ);
+
         generationMaze(startX, startZ);
     }
 
@@ -38,6 +42,13 @@ public class Maze : MonoBehaviour
         
     }
 
+    /*
+     * Méthode récursive, permet de parcourir la grille en profondeur
+     * Dans un bloc qu'on explore, on regarde si l'un des 4 blocs adjacents est libre
+     * Si oui, on l'explore à son tour
+     * Sinon, on revient au bloc d'avant et on cherche une autre direction
+     * Au final, on sera revenu au premier bloc avec tous les blocs d'exploré
+     */
     public void generationMaze(int x, int z)
     {
         grille[x, z].Explore();
@@ -52,21 +63,22 @@ public class Maze : MonoBehaviour
 
             switch (direction)
             {
-                case 0: nextZ = z + 1; //Debug.Log("Ouest z + 1: " + nextX);
-                        break; // Ouest
-                case 1: nextX = x - 1; //Debug.Log("Sud x - 1: " + nextX);
-                        break; // Sud
-                case 2: nextZ = z - 1; //Debug.Log("Est z - 1: " + nextX);
-                        break; // Est
-                case 3: nextX = x + 1; //Debug.Log("Nord x + 1: " + nextX);
+                case 0: nextZ = z + 1; //Debug.Log("Nord z + 1: " + nextZ);
                         break; // Nord
+                case 1: nextX = x - 1; //Debug.Log("Ouest x - 1: " + nextX);
+                        break; // Ouest
+                case 2: nextZ = z - 1; //Debug.Log("Sud z - 1: " + nextZ);
+                        break; // Sud
+                case 3: nextX = x + 1; //Debug.Log("Est x + 1: " + nextX);
+                        break; // Est
             }
-
             //Debug.Log("nextX: " + nextX);
             //Debug.Log("nextZ: " + nextZ);
-            // Vérifiez si la nouvelle position est valide
+
+            // Si on est bien dans la grille
             if (nextX >= 0 && nextX < taille && nextZ >= 0 && nextZ < taille)
             {
+                // Si le bloc suivant n'a pas encore été exploré
                 if(!grille[nextX, nextZ].getExplore())
                 {
                     hideWalls(direction, x, nextX, z, nextZ);
@@ -95,20 +107,20 @@ public class Maze : MonoBehaviour
         switch (direction)
         {
             case 0:
-                grille[x, z].RemoveMurGauche();
-                grille[nextX, nextZ].RemoveMurDroite();
+                grille[x, z].RemoveMurNord();
+                grille[nextX, nextZ].RemoveMurSud();
                 break;
             case 1:
-                grille[x, z].RemoveMurBas();
-                grille[nextX, nextZ].RemoveMurHaut();
+                grille[x, z].RemoveMurOuest();
+                grille[nextX, nextZ].RemoveMurEst();
                 break;
             case 2:
-                grille[x, z].RemoveMurDroite();
-                grille[nextX, nextZ].RemoveMurGauche();
+                grille[x, z].RemoveMurSud();
+                grille[nextX, nextZ].RemoveMurNord();
                 break;
             case 3:
-                grille[x, z].RemoveMurHaut();
-                grille[nextX, nextZ].RemoveMurBas();
+                grille[x, z].RemoveMurEst();
+                grille[nextX, nextZ].RemoveMurOuest();
                 break;
         }
     }
