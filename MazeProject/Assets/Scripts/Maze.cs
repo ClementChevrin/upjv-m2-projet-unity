@@ -7,17 +7,26 @@ public class Maze : MonoBehaviour
     [SerializeField]
     private Bloc bloc; //pour appeler la preFab
 
+    [SerializeField]
+    private SAS sas;
+
+    [SerializeField]
+    public Player joueur;
+
     private Bloc entree;
 
     private int xEntree;
 
     private Bloc sortie;
 
+    private int xSortie;
+
     System.Random random = new();
 
     private const int taille = 20; //pour l'instant on change la taille ici
 
     private Bloc[,] grille;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +37,7 @@ public class Maze : MonoBehaviour
         {
             for (int z = 0; z < taille; ++z)
             {
-                Bloc newBloc = Instantiate(bloc, new Vector3(x, -1, z), Quaternion.identity);
+                Bloc newBloc = Instantiate(bloc, new Vector3(x, (float)-1.6, z), Quaternion.identity);
                 grille[x, z] = newBloc;
             }
         }
@@ -132,34 +141,35 @@ public class Maze : MonoBehaviour
         }
     }
 
+    //Création et placement d'un bloc avec spécification des murs souhaités
+    public void blocWithSpecificWalls(int x, int z, bool nord, bool est, bool sud, bool ouest)
+    {
+        Bloc instBloc = Instantiate(bloc, new Vector3(x, -1, z), Quaternion.identity);
+        instBloc.setWall(nord, est, sud, ouest);
+        instBloc.setCorner(false, false, false, false);
+    }
+
 
     //Ajouter une entrée et une sortie
     public void addEntreeSortie()
     {
+        // Placement de l'entrée
         xEntree = random.Next(1,taille - 2);
         entree = grille[xEntree, 0];
         entree.RemoveMurSud();
 
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree, -1, -1), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree-1, -1, -1), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree+1, -1, -1), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree, -1, -2), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree-1, -1, -2), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree+1, -1, -2), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree, -1, -3), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree-1, -1, -3), Quaternion.identity);
-        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree+1, -1, -3), Quaternion.identity);
-
-        // hideWalls(0);
-
-        int rand = random.Next(1,taille - 2);
-        sortie = grille[rand, taille - 1];
+        // Placement de la sortie
+        xSortie= random.Next(1,taille - 2);
+        sortie = grille[xSortie, taille - 1];
         sortie.RemoveMurNord();
-    }
 
-    //Création SAS Entrée
-    public void addEntreeSAS()
-    {
-        
+        //Création des SAS d'entrée et de sortie
+        SAS instEntreeSAS = Instantiate(sas, new Vector3(xEntree, (float)-1.6, -2), Quaternion.identity); //Entrée
+        SAS instSortieSAS = Instantiate(sas, new Vector3(xSortie, (float)-1.6, taille+1), Quaternion.Euler(0, 180, 0)); //Sortie
+
+        // Placement du joueur à l'entrée
+        if (joueur != null) {
+            joueur.PlacePlayer(new Vector3(xEntree, (float)0.6, -2));
+        }
     }
 }
