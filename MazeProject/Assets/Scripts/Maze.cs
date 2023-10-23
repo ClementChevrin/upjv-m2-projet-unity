@@ -7,9 +7,15 @@ public class Maze : MonoBehaviour
     [SerializeField]
     private Bloc bloc; //pour appeler la preFab
 
+    private Bloc entree;
+
+    private int xEntree;
+
+    private Bloc sortie;
+
     System.Random random = new();
 
-    private const int taille = 100; //pour l'instant on change la taille ici
+    private const int taille = 20; //pour l'instant on change la taille ici
 
     private Bloc[,] grille;
 
@@ -34,6 +40,7 @@ public class Maze : MonoBehaviour
         //Debug.Log("startZ: " + startZ);
 
         generationMaze(startX, startZ);
+        addEntreeSortie();
     }
 
     // Update is called once per frame
@@ -123,5 +130,36 @@ public class Maze : MonoBehaviour
                 grille[nextX, nextZ].RemoveMurOuest();
                 break;
         }
+    }
+
+
+    //Ajouter une entrée et une sortie
+    public void addEntreeSortie()
+    {
+        xEntree = random.Next(1,taille - 2);
+        entree = grille[xEntree, 0];
+        entree.RemoveMurSud();
+
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree, -1, -1), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree-1, -1, -1), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree+1, -1, -1), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree, -1, -2), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree-1, -1, -2), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree+1, -1, -2), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree, -1, -3), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree-1, -1, -3), Quaternion.identity);
+        // Bloc salleEntree = Instantiate(bloc, new Vector3(xEntree+1, -1, -3), Quaternion.identity);
+
+        // hideWalls(0);
+
+        int rand = random.Next(1,taille - 2);
+        sortie = grille[rand, taille - 1];
+        sortie.RemoveMurNord();
+    }
+
+    //Création SAS Entrée
+    public void addEntreeSAS()
+    {
+        
     }
 }
