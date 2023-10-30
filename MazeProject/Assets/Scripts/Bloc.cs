@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Bloc : MonoBehaviour
 {
-    // Doit être retirer (ne sert à rien)
-    [SerializeField]
-    private GameObject interieur;
 
     [SerializeField]
     private GameObject murNord;
@@ -51,7 +48,6 @@ public class Bloc : MonoBehaviour
     // Est appelé quand on explore un bloc, on rend invisible l'intérieur du bloc
     public void Explore()
     {
-        interieur.SetActive(false);
         estExplore = true;
     }
 

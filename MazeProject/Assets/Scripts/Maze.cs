@@ -37,7 +37,7 @@ public class Maze : MonoBehaviour
         {
             for (int z = 0; z < taille; ++z)
             {
-                Bloc newBloc = Instantiate(bloc, new Vector3(x, (float)-1.6, z), Quaternion.identity);
+                Bloc newBloc = Instantiate(bloc, new Vector3(x*2, (float)-1.6, z*2), Quaternion.identity);
                 grille[x, z] = newBloc;
             }
         }
@@ -164,12 +164,12 @@ public class Maze : MonoBehaviour
         sortie.RemoveMurNord();
 
         //Création des SAS d'entrée et de sortie
-        SAS instEntreeSAS = Instantiate(sas, new Vector3(xEntree, (float)-1.6, -2), Quaternion.identity); //Entrée
-        SAS instSortieSAS = Instantiate(sas, new Vector3(xSortie, (float)-1.6, taille+1), Quaternion.Euler(0, 180, 0)); //Sortie
+        SAS instEntreeSAS = Instantiate(sas, new Vector3((xEntree*2)+2, (float)-1.6, -4), Quaternion.identity); //Entrée
+        SAS instSortieSAS = Instantiate(sas, new Vector3((xSortie*2)-3, (float)-1.6, (taille*2)+2), Quaternion.Euler(0, 180, 0)); //Sortie
 
         // Placement du joueur à l'entrée
         if (joueur != null) {
-            joueur.PlacePlayer(new Vector3(xEntree, (float)0.6, -2));
+            joueur.PlacePlayer(new Vector3((xEntree*2)-(float)0.5, (float)0.6, -4));
         }
     }
 }

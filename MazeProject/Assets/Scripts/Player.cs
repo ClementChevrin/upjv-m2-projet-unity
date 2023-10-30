@@ -5,12 +5,18 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    public float moveSpeed = 1.0f;
+    public float moveSpeed = 2.0f;
+
+    [SerializeField]
+    private CharacterController characterController;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(characterController == null)
+        {
+            characterController = GetComponent<CharacterController>();
+        }
     }
 
     // Update is called once per frame
@@ -24,24 +30,32 @@ public class Player : MonoBehaviour
         cameraForward.Normalize();
 
         // Player movement
+        Vector3 movement = Vector3.zero;
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            transform.position += cameraForward * moveSpeed * Time.deltaTime;
+            movement += cameraForward;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position -= cameraForward * moveSpeed * Time.deltaTime;
+            movement -= cameraForward;
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position -= Camera.main.transform.right * moveSpeed * Time.deltaTime;
+            movement -= Camera.main.transform.right;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position += Camera.main.transform.right * moveSpeed * Time.deltaTime;
+            movement += Camera.main.transform.right;
         }
 
-        
+        // Normalize the movement vector to avoid faster diagonal movement
+        movement.Normalize();
+
+        // Apply the movement to the character controller
+        characterController.Move(movement * moveSpeed * Time.deltaTime);
+
+
     }
 
     public void PlacePlayer(Vector3 position)

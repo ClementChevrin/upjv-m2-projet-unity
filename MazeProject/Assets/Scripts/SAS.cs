@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SAS : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject interieur;
 
     [SerializeField]
     private GameObject murNord;
