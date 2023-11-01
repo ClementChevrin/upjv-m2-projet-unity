@@ -118,34 +118,31 @@ public class Maze : MonoBehaviour
                     case 0:
                         if (grille[x, z].murNordIsActive()){
                             newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)+(float)0.8), Quaternion.Euler(-45, 0, 0));
-                            //newTorch.transform.SetParent(grille[x, z].getMurNord().transform);
                             isTorched = true;
                         }
                         break; // Nord
                     case 1:
                         if (grille[x, z].murOuestIsActive()){
                             newTorch = Instantiate(torch, new Vector3((x * 2) - (float)1.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, -45));
-                            //newTorch.transform.SetParent(grille[x, z].getMurOuest().transform);
                             isTorched = true;
                         }
                         break; // Ouest
                     case 2:
                         if (grille[x, z].murSudIsActive()){
                             newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)-(float)0.8), Quaternion.Euler(45, 0, 0));
-                            //newTorch.transform.SetParent(grille[x, z].getMurSud().transform);
                             isTorched = true;
                         }
                         break; // Sud
                     case 3:
                         if (grille[x, z].murEstIsActive()){
                             newTorch = Instantiate(torch, new Vector3((x * 2) + (float)0.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, 45));
-                            //newTorch.transform.SetParent(grille[x, z].getMurEst().transform);
                             isTorched = true;
                         }
                         break; // Est
                 }
                 if (isTorched)
                 {
+                    newTorch.transform.SetParent(grille[x, z].transform);
                     break;
                 }
             }
@@ -214,8 +211,16 @@ public class Maze : MonoBehaviour
         //Création des SAS d'entrée et de sortie
         SAS instEntreeSAS = Instantiate(sas, new Vector3((xEntree*2)+2, (float)-1.6, -4), Quaternion.identity); //Entrée
         SAS instSortieSAS = Instantiate(sas, new Vector3((xSortie*2)-3, (float)-1.6, (taille*2)+2), Quaternion.Euler(0, 180, 0)); //Sortie
+
+        //Association des SAS au maze
         instEntreeSAS.transform.SetParent(this.transform);
         instSortieSAS.transform.SetParent(this.transform);
+
+        //On recherche si des torches existent à l'entrée et sortie, si oui on les rend invisibles.
+        Torch torcheE = entree.GetComponentInChildren<Torch>();
+        Torch torcheS = sortie.GetComponentInChildren<Torch>();
+        if (torcheE != null) torcheE.gameObject.SetActive(false);
+        if (torcheS != null) torcheS.gameObject.SetActive(false);
 
         // Placement du joueur à l'entrée
         if (joueur != null) {
