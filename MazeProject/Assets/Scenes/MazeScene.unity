@@ -243,8 +243,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
-  m_SpotAngle: 90
-  m_InnerSpotAngle: 9
+  m_SpotAngle: 60
+  m_InnerSpotAngle: 3
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloc: {fileID: 1788768684370610323, guid: ebd64e2dd258d80409c0a08fcd3794b6, type: 3}
+  torch: {fileID: 2671173653651299732, guid: 17f551b7fb35b24458ce79892b4fe324, type: 3}
   sas: {fileID: 1744941134698758138, guid: a4308e906e9df164dbc84e10cc228aae, type: 3}
   joueur: {fileID: 423523488}
 --- !u!65 &855495230

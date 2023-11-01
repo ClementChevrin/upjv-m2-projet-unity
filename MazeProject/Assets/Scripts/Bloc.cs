@@ -36,13 +36,33 @@ public class Bloc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public GameObject getMurNord()
+    {
+        return murNord;
+    }
+
+    public GameObject getMurSud()
+    {
+        return murSud;
+    }
+
+    public GameObject getMurOuest()
+    {
+        return murOuest;
+    }
+
+    public GameObject getMurEst()
+    {
+        return murEst;
     }
 
     // Est appelé quand on explore un bloc, on rend invisible l'intérieur du bloc
@@ -91,5 +111,25 @@ public class Bloc : MonoBehaviour
         murOuest.SetActive(ouest);
         murNord.SetActive(nord);
         murSud.SetActive(sud);
+    }
+
+    public bool murNordIsActive()
+    {
+        return murNord.activeSelf;
+    }
+
+    public bool murSudIsActive()
+    {
+        return murSud.activeSelf;
+    }
+
+    public bool murOuestIsActive()
+    {
+        return murOuest.activeSelf;
+    }
+
+    public bool murEstIsActive()
+    {
+        return murEst.activeSelf;
     }
 }

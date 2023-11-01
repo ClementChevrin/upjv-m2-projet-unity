@@ -5,7 +5,10 @@ using UnityEngine;
 public class Maze : MonoBehaviour
 {
     [SerializeField]
-    private Bloc bloc; //pour appeler la preFab
+    private Bloc bloc; //pour appeler la preFab bloc
+
+    [SerializeField]
+    private Torch torch; //pour appeler la preFab torch
 
     [SerializeField]
     private SAS sas;
@@ -39,6 +42,7 @@ public class Maze : MonoBehaviour
             {
                 Bloc newBloc = Instantiate(bloc, new Vector3(x*2, (float)-1.6, z*2), Quaternion.identity);
                 grille[x, z] = newBloc;
+                grille[x, z].transform.SetParent(this.transform);
             }
         }
 
@@ -48,7 +52,7 @@ public class Maze : MonoBehaviour
         //Debug.Log("startX: " + startX);
         //Debug.Log("startZ: " + startZ);
 
-        generationMaze(startX, startZ);
+        generationMaze(startX, startZ, 0);
         addEntreeSortie();
     }
 
@@ -65,10 +69,9 @@ public class Maze : MonoBehaviour
      * Sinon, on revient au bloc d'avant et on cherche une autre direction
      * Au final, on sera revenu au premier bloc avec tous les blocs d'exploré
      */
-    public void generationMaze(int x, int z)
+    public void generationMaze(int x, int z, int cpt)
     {
         grille[x, z].Explore();
-
         int[] directions = { 0, 1, 2, 3 };
         ShuffleArray(directions); // On mélange les directions aux hasard
 
@@ -98,7 +101,52 @@ public class Maze : MonoBehaviour
                 if(!grille[nextX, nextZ].getExplore())
                 {
                     hideWalls(direction, x, nextX, z, nextZ);
-                    generationMaze(nextX, nextZ);
+                    generationMaze(nextX, nextZ, cpt+1);
+                }
+            }
+        }
+
+        //Ajout des torches (RESTE A ASSIGNER LES TORCHES AUX MURS (LIGNES EN PARENTHESES), PROBLEME : TORCHES CHANGENT DE FORMES)
+        Torch newTorch = null;
+        bool isTorched = false;
+        if (cpt % 8 == 0)
+        {
+            foreach (int direction in directions)
+            {
+                switch (direction)
+                {
+                    case 0:
+                        if (grille[x, z].murNordIsActive()){
+                            newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)+(float)0.8), Quaternion.Euler(-45, 0, 0));
+                            //newTorch.transform.SetParent(grille[x, z].getMurNord().transform);
+                            isTorched = true;
+                        }
+                        break; // Nord
+                    case 1:
+                        if (grille[x, z].murOuestIsActive()){
+                            newTorch = Instantiate(torch, new Vector3((x * 2) - (float)1.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, -45));
+                            //newTorch.transform.SetParent(grille[x, z].getMurOuest().transform);
+                            isTorched = true;
+                        }
+                        break; // Ouest
+                    case 2:
+                        if (grille[x, z].murSudIsActive()){
+                            newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)-(float)0.8), Quaternion.Euler(45, 0, 0));
+                            //newTorch.transform.SetParent(grille[x, z].getMurSud().transform);
+                            isTorched = true;
+                        }
+                        break; // Sud
+                    case 3:
+                        if (grille[x, z].murEstIsActive()){
+                            newTorch = Instantiate(torch, new Vector3((x * 2) + (float)0.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, 45));
+                            //newTorch.transform.SetParent(grille[x, z].getMurEst().transform);
+                            isTorched = true;
+                        }
+                        break; // Est
+                }
+                if (isTorched)
+                {
+                    break;
                 }
             }
         }
@@ -166,6 +214,8 @@ public class Maze : MonoBehaviour
         //Création des SAS d'entrée et de sortie
         SAS instEntreeSAS = Instantiate(sas, new Vector3((xEntree*2)+2, (float)-1.6, -4), Quaternion.identity); //Entrée
         SAS instSortieSAS = Instantiate(sas, new Vector3((xSortie*2)-3, (float)-1.6, (taille*2)+2), Quaternion.Euler(0, 180, 0)); //Sortie
+        instEntreeSAS.transform.SetParent(this.transform);
+        instSortieSAS.transform.SetParent(this.transform);
 
         // Placement du joueur à l'entrée
         if (joueur != null) {
