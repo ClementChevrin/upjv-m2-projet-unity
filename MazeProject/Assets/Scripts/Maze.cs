@@ -11,6 +11,9 @@ public class Maze : MonoBehaviour
     private Torch torch; //pour appeler la preFab torch
 
     [SerializeField]
+    private Key key; //pour appeler la preFab key
+
+    [SerializeField]
     private SAS sas;
 
     [SerializeField]
@@ -27,6 +30,8 @@ public class Maze : MonoBehaviour
     System.Random random = new();
 
     private const int taille = 20; //pour l'instant on change la taille ici
+
+    private const int numberOfKeys = 3; //pour l'instant on définit le nombre de clés ici, à param. dans le menu plus tard ?
 
     private Bloc[,] grille;
 
@@ -54,6 +59,7 @@ public class Maze : MonoBehaviour
 
         generationMaze(startX, startZ, 0);
         addEntreeSortie();
+        addKeys();
     }
 
     // Update is called once per frame
@@ -225,6 +231,18 @@ public class Maze : MonoBehaviour
         // Placement du joueur à l'entrée
         if (joueur != null) {
             joueur.PlacePlayer(new Vector3((xEntree*2)-(float)0.5, (float)0.6, -4));
+        }
+    }
+
+    public void addKeys()
+    {
+        int keyX, keyZ;
+        for (int i = 0; i < numberOfKeys; i++)
+        {
+            keyX = random.Next(0, taille - 1);
+            keyZ = random.Next(0, taille - 1);
+            Key instKey = Instantiate(key, new Vector3((keyX * 2)- (float)0.5, (float)0.4, (keyZ * 2)), Quaternion.identity);
+            instKey.transform.SetParent(grille[keyX,keyZ].transform);
         }
     }
 }

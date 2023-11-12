@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 423523487}
   - component: {fileID: 423523488}
   - component: {fileID: 423523490}
+  - component: {fileID: 423523491}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -196,6 +197,29 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &423523491
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423523486}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &691716054
 GameObject:
@@ -338,6 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloc: {fileID: 1788768684370610323, guid: ebd64e2dd258d80409c0a08fcd3794b6, type: 3}
   torch: {fileID: 2671173653651299732, guid: 17f551b7fb35b24458ce79892b4fe324, type: 3}
+  key: {fileID: -1551147033409747912, guid: 4e68941357a93c04abc2268ccbb7ae29, type: 3}
   sas: {fileID: 1744941134698758138, guid: a4308e906e9df164dbc84e10cc228aae, type: 3}
   joueur: {fileID: 423523488}
 --- !u!65 &855495230
