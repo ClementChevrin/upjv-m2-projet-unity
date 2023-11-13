@@ -29,16 +29,16 @@ public class Maze : MonoBehaviour
 
     System.Random random = new();
 
-    private const int taille = 20; //pour l'instant on change la taille ici
+    private int taille = 20; //pour l'instant on change la taille ici
 
     private const int numberOfKeys = 3; //pour l'instant on définit le nombre de clés ici, à param. dans le menu plus tard ?
 
     private Bloc[,] grille;
 
-
     // Start is called before the first frame update
     void Start()
     {
+        taille = PlayerPrefs.GetInt("tailleLabirynthe", 20);
         //On crée la grille et on la remplie de la prefab Bloc
         grille = new Bloc[taille, taille];
         for (int x = 0; x < taille; ++x)
@@ -112,45 +112,52 @@ public class Maze : MonoBehaviour
             }
         }
 
-        //Ajout des torches (RESTE A ASSIGNER LES TORCHES AUX MURS (LIGNES EN PARENTHESES), PROBLEME : TORCHES CHANGENT DE FORMES)
-        Torch newTorch = null;
-        bool isTorched = false;
         if (cpt % 8 == 0)
         {
-            foreach (int direction in directions)
+            //Ajout des torches
+            generationTorchInMaze(x, z, directions);
+        }
+    }
+
+    //Fonction d'ajout des torches
+    public void generationTorchInMaze(int x, int z, int[] directions)
+    {
+        Torch newTorch = null;
+        bool isTorched = false;
+        
+        foreach (int direction in  directions)
+        {
+            switch (direction)
             {
-                switch (direction)
-                {
-                    case 0:
-                        if (grille[x, z].murNordIsActive()){
-                            newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)+(float)0.8), Quaternion.Euler(-45, 0, 0));
-                            isTorched = true;
-                        }
-                        break; // Nord
-                    case 1:
-                        if (grille[x, z].murOuestIsActive()){
-                            newTorch = Instantiate(torch, new Vector3((x * 2) - (float)1.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, -45));
-                            isTorched = true;
-                        }
-                        break; // Ouest
-                    case 2:
-                        if (grille[x, z].murSudIsActive()){
-                            newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)-(float)0.8), Quaternion.Euler(45, 0, 0));
-                            isTorched = true;
-                        }
-                        break; // Sud
-                    case 3:
-                        if (grille[x, z].murEstIsActive()){
-                            newTorch = Instantiate(torch, new Vector3((x * 2) + (float)0.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, 45));
-                            isTorched = true;
-                        }
-                        break; // Est
-                }
-                if (isTorched)
-                {
-                    newTorch.transform.SetParent(grille[x, z].transform);
-                    break;
-                }
+                case 0:
+                    if (grille[x, z].murNordIsActive()){
+                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)+(float)0.8), Quaternion.Euler(-45, 0, 0));
+                        isTorched = true;
+                    }
+                    break; // Nord
+                case 1:
+                    if (grille[x, z].murOuestIsActive()){
+                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)1.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, -45));
+                        isTorched = true;
+                    }
+                    break; // Ouest
+                case 2:
+                    if (grille[x, z].murSudIsActive()){
+                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)-(float)0.8), Quaternion.Euler(45, 0, 0));
+                        isTorched = true;
+                    }
+                    break; // Sud
+                case 3:
+                    if (grille[x, z].murEstIsActive()){
+                        newTorch = Instantiate(torch, new Vector3((x * 2) + (float)0.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, 45));
+                        isTorched = true;
+                    }
+                    break; // Est
+            }
+            if (isTorched)
+            {
+                newTorch.transform.SetParent(grille[x, z].transform);
+                break;
             }
         }
     }
@@ -230,6 +237,7 @@ public class Maze : MonoBehaviour
 
         // Placement du joueur à l'entrée
         if (joueur != null) {
+            Debug.Log("placememarilynent");
             joueur.PlacePlayer(new Vector3((xEntree*2)-(float)0.5, (float)0.6, -4));
         }
     }

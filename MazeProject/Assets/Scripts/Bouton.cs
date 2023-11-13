@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SAS : MonoBehaviour
+public class Bouton : MonoBehaviour
 {
-    public GameObject porte;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,10 +14,5 @@ public class SAS : MonoBehaviour
     void Update()
     {
         
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("SAS");
     }
 }
