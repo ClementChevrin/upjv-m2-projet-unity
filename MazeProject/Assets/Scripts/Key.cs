@@ -19,12 +19,15 @@ public class Key : MonoBehaviour
         
     }
 
-    private void OnTrigger(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (expectedObject != null)
         {
-            if (other.gameObject == expectedObject)
+            if (other.CompareTag(expectedObject.tag))
             {
+                Debug.Log("Ici");
+                Debug.Log(expectedObject);
+                Debug.Log(other.gameObject);
                 gameObject.SetActive(false);
             }
         }

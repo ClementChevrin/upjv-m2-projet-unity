@@ -54,11 +54,11 @@ public class Maze : MonoBehaviour
         //On choisit un bloc de départ
         int startX = random.Next(taille);
         int startZ = random.Next(taille);
-        //Debug.Log("startX: " + startX);
-        //Debug.Log("startZ: " + startZ);
 
         generationMaze(startX, startZ, 0);
         addEntreeSortie();
+        removeTorchEntreeSortie();
+        addPlayer();
         addKeys();
     }
 
@@ -97,8 +97,6 @@ public class Maze : MonoBehaviour
                 case 3: nextX = x + 1; //Debug.Log("Est x + 1: " + nextX);
                         break; // Est
             }
-            //Debug.Log("nextX: " + nextX);
-            //Debug.Log("nextZ: " + nextZ);
 
             // Si on est bien dans la grille
             if (nextX >= 0 && nextX < taille && nextZ >= 0 && nextZ < taille)
@@ -228,18 +226,21 @@ public class Maze : MonoBehaviour
         //Association des SAS au maze
         instEntreeSAS.transform.SetParent(this.transform);
         instSortieSAS.transform.SetParent(this.transform);
+    }
 
-        //On recherche si des torches existent à l'entrée et sortie, si oui on les rend invisibles.
+    //On recherche si des torches existent à l'entrée et sortie, si oui on les rend invisibles.
+    public void removeTorchEntreeSortie()
+    {
         Torch torcheE = entree.GetComponentInChildren<Torch>();
         Torch torcheS = sortie.GetComponentInChildren<Torch>();
         if (torcheE != null) torcheE.gameObject.SetActive(false);
         if (torcheS != null) torcheS.gameObject.SetActive(false);
+    }
 
-        // Placement du joueur à l'entrée
-        if (joueur != null) {
-            Debug.Log("placememarilynent");
-            joueur.PlacePlayer(new Vector3((xEntree*2)-(float)0.5, (float)0.6, -4));
-        }
+    public void addPlayer()
+    {
+        Player j = Instantiate(joueur, new Vector3((xEntree * 2) - (float)0.5, (float)0.6, -4), Quaternion.identity);
+        j.transform.SetParent(this.transform);
     }
 
     public void addKeys()

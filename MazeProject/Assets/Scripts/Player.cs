@@ -57,9 +57,4 @@ public class Player : MonoBehaviour
 
 
     }
-
-    public void PlacePlayer(Vector3 position)
-    {
-        transform.position = position;
-    }
 }
