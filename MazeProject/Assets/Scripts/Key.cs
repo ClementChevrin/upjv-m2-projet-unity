@@ -7,6 +7,9 @@ public class Key : MonoBehaviour
     [SerializeField]
     private GameObject expectedObject = null;
 
+    [SerializeField]
+    private string playerTag = "Player";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,14 +24,17 @@ public class Key : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (expectedObject != null)
+        if (expectedObject != null && other.CompareTag(playerTag))
         {
-            if (other.CompareTag(expectedObject.tag))
+            Debug.Log("Ici");
+            Debug.Log(expectedObject);
+            Debug.Log(other.gameObject);
+            gameObject.SetActive(false);
+
+            Player playerScript = other.GetComponent<Player>();
+            if (playerScript != null)
             {
-                Debug.Log("Ici");
-                Debug.Log(expectedObject);
-                Debug.Log(other.gameObject);
-                gameObject.SetActive(false);
+                playerScript.CollectKey();
             }
         }
     }

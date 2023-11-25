@@ -29,9 +29,9 @@ public class Maze : MonoBehaviour
 
     System.Random random = new();
 
-    private int taille = 20; //pour l'instant on change la taille ici
+    private int taille = 20;
 
-    private const int numberOfKeys = 3; //pour l'instant on définit le nombre de clés ici, à param. dans le menu plus tard ?
+    private int numberOfKeys = 3; //pour l'instant on définit le nombre de clés ici, à param. dans le menu plus tard ?
 
     private Bloc[,] grille;
 
@@ -241,6 +241,11 @@ public class Maze : MonoBehaviour
     {
         Player j = Instantiate(joueur, new Vector3((xEntree * 2) - (float)0.5, (float)0.6, -4), Quaternion.identity);
         j.transform.SetParent(this.transform);
+    }
+
+    public int getNumberOfKeys()
+    {
+        return this.numberOfKeys;
     }
 
     public void addKeys()

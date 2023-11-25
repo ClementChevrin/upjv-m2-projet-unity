@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private CharacterController characterController;
 
+    private int keysCollected;
+
+    private int totalKeys;
+
+    [SerializeField]
+    private Text keyCountText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +25,17 @@ public class Player : MonoBehaviour
         {
             characterController = GetComponent<CharacterController>();
         }
+
+        if (transform.parent != null)
+        {
+            Maze maze = transform.parent.GetComponent<Maze>();
+            if (maze != null)
+            {
+                totalKeys = maze.getNumberOfKeys();
+                keysCollected = 0;
+            }
+        }
+        UpdateKeyCountUI();
     }
 
     // Update is called once per frame
@@ -56,5 +75,20 @@ public class Player : MonoBehaviour
         characterController.Move(movement * moveSpeed * Time.deltaTime);
 
 
+    }
+
+    public void CollectKey()
+    {
+        keysCollected += 1;
+        UpdateKeyCountUI();
+    }
+
+    private void UpdateKeyCountUI()
+    {
+        Debug.Log("Clés obtenues : " + this.keysCollected + "/" + this.totalKeys);
+        if (keyCountText != null)
+        {
+            keyCountText.text = "Clés obtenues : " + keysCollected + "/" + totalKeys;
+        }
     }
 }
