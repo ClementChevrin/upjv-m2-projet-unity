@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
 
     private int totalKeys;
 
-    [SerializeField]
-    private Text keyCountText;
+    
+    public Text keyCountText;
 
     // Start is called before the first frame update
     void Start()
