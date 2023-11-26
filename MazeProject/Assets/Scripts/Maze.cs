@@ -226,6 +226,9 @@ public class Maze : MonoBehaviour
         //Association des SAS au maze
         instEntreeSAS.transform.SetParent(this.transform);
         instSortieSAS.transform.SetParent(this.transform);
+
+        instEntreeSAS.GetComponentInChildren<Porte>().gameObject.SetActive(false);
+
     }
 
     //On recherche si des torches existent à l'entrée et sortie, si oui on les rend invisibles.

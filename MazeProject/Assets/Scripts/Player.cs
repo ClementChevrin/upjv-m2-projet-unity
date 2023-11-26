@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -15,8 +14,7 @@ public class Player : MonoBehaviour
 
     private int totalKeys;
 
-    
-    public Text keyCountText;
+    public MazeUIManager mazeUiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +33,9 @@ public class Player : MonoBehaviour
                 keysCollected = 0;
             }
         }
-        UpdateKeyCountUI();
+        mazeUiManager = FindObjectOfType<MazeUIManager>();
+        //MazeUIManager mazeUiManager = FindObjectOfType<MazeUIManager>();
+        mazeUiManager.UpdateKeyCount(keysCollected, totalKeys);
     }
 
     // Update is called once per frame
@@ -80,15 +80,10 @@ public class Player : MonoBehaviour
     public void CollectKey()
     {
         keysCollected += 1;
-        UpdateKeyCountUI();
-    }
-
-    private void UpdateKeyCountUI()
-    {
-        Debug.Log("Clés obtenues : " + this.keysCollected + "/" + this.totalKeys);
-        if (keyCountText != null)
+        mazeUiManager.UpdateKeyCount(keysCollected, totalKeys);
+        if (keysCollected == totalKeys)
         {
-            keyCountText.text = "Clés obtenues : " + keysCollected + "/" + totalKeys;
+            mazeUiManager.UpdateObjective();
         }
     }
 }
