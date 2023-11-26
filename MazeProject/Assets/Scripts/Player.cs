@@ -81,8 +81,11 @@ public class Player : MonoBehaviour
     {
         keysCollected += 1;
         mazeUiManager.UpdateKeyCount(keysCollected, totalKeys);
+        //Si le joueur a toute les clés on met à jour l'UI et on active la porte de sortie
         if (keysCollected == totalKeys)
         {
+            GameObject[] sas = GameObject.FindGameObjectsWithTag("SAS");
+            sas[1].GetComponentInChildren<Porte>().GetComponent<Collider>().isTrigger = true;
             mazeUiManager.UpdateObjective();
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MazeUIManager : MonoBehaviour
 {
@@ -42,15 +43,17 @@ public class MazeUIManager : MonoBehaviour
         }
     }
 
-    public void ShowCenterMessage(string message)
+    public void ShowWin()
     {
-        center.text = message;
-        StartCoroutine(ClearCenterMessage());
+        center.gameObject.SetActive(true);
+        StartCoroutine(ClearWinAndQuit());
+
     }
 
-    private IEnumerator ClearCenterMessage()
+    private IEnumerator ClearWinAndQuit()
     {
         yield return new WaitForSeconds(2f);
-        center.text = "";
+        center.gameObject.SetActive(false);
+        SceneManager.LoadScene("MenuScene");
     }
 }

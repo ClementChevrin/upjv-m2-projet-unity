@@ -227,6 +227,10 @@ public class Maze : MonoBehaviour
         instEntreeSAS.transform.SetParent(this.transform);
         instSortieSAS.transform.SetParent(this.transform);
 
+        //On ajoute un tag au SAS de sortie (utile pour gérer sa porte plus tard)
+        //instSortieSAS.gameObject.tag = "SASS";
+
+        //On désactive la porte du SAS d'entrée
         instEntreeSAS.GetComponentInChildren<Porte>().gameObject.SetActive(false);
 
     }

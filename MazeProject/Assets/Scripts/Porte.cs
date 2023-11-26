@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Porte : MonoBehaviour
 {
@@ -21,11 +20,11 @@ public class Porte : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Porte");
+        //Debug.Log("Porte");
         if (uiManager != null && other.CompareTag("Player"))
         {
-            uiManager.ShowCenterMessage("Gagné !");
-            SceneManager.LoadScene("MenuScene");
+            this.GetComponent<MeshRenderer>().enabled = false;
+            uiManager.ShowWin();
         }
     }
 }
