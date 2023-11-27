@@ -1177,6 +1177,7 @@ MonoBehaviour:
   texteNbCles: {fileID: 917204168}
   sliderNbCles: {fileID: 1852253721}
   nbClesAffiche: {fileID: 129555632}
+  buttonClickSound: {fileID: 8300000, guid: e33b7536748d9db4b82042fd3c7378b5, type: 3}
 --- !u!114 &741189677
 MonoBehaviour:
   m_ObjectHideFlags: 0

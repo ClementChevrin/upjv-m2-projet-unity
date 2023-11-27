@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1c00471101d3c4d8993c0f2462d039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorOpenSound: {fileID: 8300000, guid: 5c721e379c828704cab3e86909b437c4, type: 3}
 --- !u!1 &398058004513527390
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,8 +17,10 @@ public class Player : MonoBehaviour
     public MazeUIManager mazeUiManager;
 
     // Paramètres pour l'effet de mouvement de la tête
-    private float bobbingSpeed = 0.01f;
-    private float bobbingAmount = 0.8f;
+    private float bobbingSpeed = 14;
+    private float bobbingAmount = 0.05f;
+    private float midpoint = 0.6f;
+
     private float timer = 0.0f;
 
     // Différents sons
@@ -106,7 +108,7 @@ public class Player : MonoBehaviour
         {
             // Si le joueur est en mouvement
             float waveSlice = Mathf.Sin(timer);
-            timer += bobbingSpeed;
+            timer += Time.deltaTime * bobbingSpeed;
 
             if (timer > Mathf.PI * 2)
             {
@@ -115,15 +117,7 @@ public class Player : MonoBehaviour
 
             if (waveSlice != 0)
             {
-                float translateChange = waveSlice * bobbingAmount;
-                float totalAxes = Mathf.Abs(characterController.velocity.x) + Mathf.Abs(characterController.velocity.z);
-                totalAxes = Mathf.Clamp(totalAxes, 0.0f, 1.0f);
-                translateChange = totalAxes * translateChange;
-
-                float newY = 0.6f + translateChange;
-
-                // Appliquer le mouvement de la tête au GameObject du joueur
-                transform.localPosition = new Vector3(transform.localPosition.x, newY, transform.localPosition.z);
+                transform.localPosition = new Vector3(transform.localPosition.x, midpoint + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);
             }
             if (Time.time - timeSinceLastFootstep > footstepDelay)
             {

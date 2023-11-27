@@ -22,11 +22,16 @@ public class MenuManager : MonoBehaviour
     public Text nbClesAffiche;
     private int nbCles = 3;
 
+    // Sons
+    public AudioClip buttonClickSound;
+
+    private AudioSource audioSource;
     /**
      * Clic sur le bouton Jouer
     */
     public void Jouer()
     {
+        playSound();
         // V�rifier si la taille est dans la plage de 10 � 50.
         if (tailleLabirynthe >= 10 && tailleLabirynthe <= 50)
         {
@@ -55,6 +60,12 @@ public class MenuManager : MonoBehaviour
 
     public void Awake() 
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            // Si l'AudioSource n'est pas déjà attaché, ajoutez-le
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString();
@@ -86,6 +97,7 @@ public class MenuManager : MonoBehaviour
 
     private void ToggleParametres(bool menuParametres)
     {
+        playSound();
         boutonJouer.gameObject.SetActive(menuParametres);
         boutonParametres.gameObject.SetActive(menuParametres);
         boutonQuitter.gameObject.SetActive(menuParametres);
@@ -102,6 +114,7 @@ public class MenuManager : MonoBehaviour
     */
     public void Quitter()
     {
+        playSound();
         #if UNITY_EDITOR
             // Code sp�cifique � l'�diteur Unity (par exemple, arr�ter le mode de lecture dans l'�diteur).
             UnityEditor.EditorApplication.isPlaying = false;
@@ -109,5 +122,13 @@ public class MenuManager : MonoBehaviour
             // Code sp�cifique � une version autonome (par exemple, build pour Windows, Mac, Linux).
             Application.Quit();
         #endif
+    }
+
+    private void playSound()
+    {
+        if (buttonClickSound != null)
+        {
+            audioSource.PlayOneShot(buttonClickSound);
+        }
     }
 }

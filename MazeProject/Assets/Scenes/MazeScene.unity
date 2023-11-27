@@ -413,6 +413,7 @@ MonoBehaviour:
   key: {fileID: -8007912067647173, guid: 1f5469e5cbe8fd54294e1b769707257e, type: 3}
   sas: {fileID: 1744941134698758138, guid: a4308e906e9df164dbc84e10cc228aae, type: 3}
   joueur: {fileID: 1370133175637020553, guid: ec46a872bcb8d3242bce481b674a5ebd, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 32a94daa16fb2754792f64ba9068faaf, type: 3}
 --- !u!65 &855495230
 BoxCollider:
   m_ObjectHideFlags: 0

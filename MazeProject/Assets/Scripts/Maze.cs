@@ -35,9 +35,20 @@ public class Maze : MonoBehaviour
 
     private Bloc[,] grille;
 
+    // Sons
+    public AudioClip backgroundMusic;
+
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            // Si l'AudioSource n'est pas déjà attaché, ajoutez-le
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.PlayOneShot(backgroundMusic, 0.2f);
         taille = PlayerPrefs.GetInt("tailleLabirynthe", 20);
         numberOfKeys = PlayerPrefs.GetInt("nbCles", 3);
         //On cr�e la grille et on la remplie de la prefab Bloc
