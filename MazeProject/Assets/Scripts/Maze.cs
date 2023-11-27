@@ -31,7 +31,7 @@ public class Maze : MonoBehaviour
 
     private int taille = 20;
 
-    private int numberOfKeys = 3; //pour l'instant on définit le nombre de clés ici, à param. dans le menu plus tard ?
+    private int numberOfKeys = 3;
 
     private Bloc[,] grille;
 
@@ -39,7 +39,8 @@ public class Maze : MonoBehaviour
     void Start()
     {
         taille = PlayerPrefs.GetInt("tailleLabirynthe", 20);
-        //On crée la grille et on la remplie de la prefab Bloc
+        numberOfKeys = PlayerPrefs.GetInt("nbCles", 3);
+        //On crï¿½e la grille et on la remplie de la prefab Bloc
         grille = new Bloc[taille, taille];
         for (int x = 0; x < taille; ++x)
         {
@@ -51,7 +52,7 @@ public class Maze : MonoBehaviour
             }
         }
 
-        //On choisit un bloc de départ
+        //On choisit un bloc de dï¿½part
         int startX = random.Next(taille);
         int startZ = random.Next(taille);
 
@@ -69,17 +70,17 @@ public class Maze : MonoBehaviour
     }
 
     /*
-     * Méthode récursive, permet de parcourir la grille en profondeur
+     * Mï¿½thode rï¿½cursive, permet de parcourir la grille en profondeur
      * Dans un bloc qu'on explore, on regarde si l'un des 4 blocs adjacents est libre
-     * Si oui, on l'explore à son tour
+     * Si oui, on l'explore ï¿½ son tour
      * Sinon, on revient au bloc d'avant et on cherche une autre direction
-     * Au final, on sera revenu au premier bloc avec tous les blocs d'exploré
+     * Au final, on sera revenu au premier bloc avec tous les blocs d'explorï¿½
      */
     public void generationMaze(int x, int z, int cpt)
     {
         grille[x, z].Explore();
         int[] directions = { 0, 1, 2, 3 };
-        ShuffleArray(directions); // On mélange les directions aux hasard
+        ShuffleArray(directions); // On mï¿½lange les directions aux hasard
 
         foreach (int direction in directions)
         {
@@ -101,7 +102,7 @@ public class Maze : MonoBehaviour
             // Si on est bien dans la grille
             if (nextX >= 0 && nextX < taille && nextZ >= 0 && nextZ < taille)
             {
-                // Si le bloc suivant n'a pas encore été exploré
+                // Si le bloc suivant n'a pas encore ï¿½tï¿½ explorï¿½
                 if(!grille[nextX, nextZ].getExplore())
                 {
                     hideWalls(direction, x, nextX, z, nextZ);
@@ -161,7 +162,7 @@ public class Maze : MonoBehaviour
     }
 
     
-    //Mélange au hasard les éléments un tableau d'entiers
+    //Mï¿½lange au hasard les ï¿½lï¿½ments un tableau d'entiers
     public void ShuffleArray(int[] array)
     {
         for (int i = 0; i < 4; i++)
@@ -197,7 +198,7 @@ public class Maze : MonoBehaviour
         }
     }
 
-    //Création et placement d'un bloc avec spécification des murs souhaités
+    //Crï¿½ation et placement d'un bloc avec spï¿½cification des murs souhaitï¿½s
     public void blocWithSpecificWalls(int x, int z, bool nord, bool est, bool sud, bool ouest)
     {
         Bloc instBloc = Instantiate(bloc, new Vector3(x, -1, z), Quaternion.identity);
@@ -206,10 +207,10 @@ public class Maze : MonoBehaviour
     }
 
 
-    //Ajouter une entrée et une sortie
+    //Ajouter une entrï¿½e et une sortie
     public void addEntreeSortie()
     {
-        // Placement de l'entrée
+        // Placement de l'entrï¿½e
         xEntree = random.Next(1,taille - 2);
         entree = grille[xEntree, 0];
         entree.RemoveMurSud();
@@ -219,23 +220,23 @@ public class Maze : MonoBehaviour
         sortie = grille[xSortie, taille - 1];
         sortie.RemoveMurNord();
 
-        //Création des SAS d'entrée et de sortie
-        SAS instEntreeSAS = Instantiate(sas, new Vector3((xEntree*2)+2, (float)-1.6, -4), Quaternion.identity); //Entrée
+        //Crï¿½ation des SAS d'entrï¿½e et de sortie
+        SAS instEntreeSAS = Instantiate(sas, new Vector3((xEntree*2)+2, (float)-1.6, -4), Quaternion.identity); //Entrï¿½e
         SAS instSortieSAS = Instantiate(sas, new Vector3((xSortie*2)-3, (float)-1.6, (taille*2)+2), Quaternion.Euler(0, 180, 0)); //Sortie
 
         //Association des SAS au maze
         instEntreeSAS.transform.SetParent(this.transform);
         instSortieSAS.transform.SetParent(this.transform);
 
-        //On ajoute un tag au SAS de sortie (utile pour gérer sa porte plus tard)
+        //On ajoute un tag au SAS de sortie (utile pour gï¿½rer sa porte plus tard)
         //instSortieSAS.gameObject.tag = "SASS";
 
-        //On désactive la porte du SAS d'entrée
+        //On dï¿½sactive la porte du SAS d'entrï¿½e
         instEntreeSAS.GetComponentInChildren<Porte>().gameObject.SetActive(false);
 
     }
 
-    //On recherche si des torches existent à l'entrée et sortie, si oui on les rend invisibles.
+    //On recherche si des torches existent ï¿½ l'entrï¿½e et sortie, si oui on les rend invisibles.
     public void removeTorchEntreeSortie()
     {
         Torch torcheE = entree.GetComponentInChildren<Torch>();
@@ -258,12 +259,26 @@ public class Maze : MonoBehaviour
     public void addKeys()
     {
         int keyX, keyZ;
-        for (int i = 0; i < numberOfKeys; i++)
+
+        // Seulement 3 quarts des clÃ©s nÃ©cessaire pour ouvrir la porte
+        double numberOfKeysInMap_Double = numberOfKeys + (numberOfKeys/3);
+        int numberOfKeysInMap = (int)numberOfKeysInMap_Double;
+
+        keyX = random.Next(0, taille - 1);
+        keyZ = random.Next(0, taille - 1);
+
+        // Placement des clÃ©s
+        for (int i = 0; i < numberOfKeysInMap; i++)
         {
-            keyX = random.Next(0, taille - 1);
-            keyZ = random.Next(0, taille - 1);
             Key instKey = Instantiate(key, new Vector3((keyX * 2)- (float)0.5, (float)0.4, (keyZ * 2)), Quaternion.identity);
             instKey.transform.SetParent(grille[keyX,keyZ].transform);
+
+            // On cherche une nouvelle position pour la clÃ©
+            while (grille[keyX,keyZ].GetComponentInChildren<Key>())
+            {
+                keyX = random.Next(0, taille - 1);
+                keyZ = random.Next(0, taille - 1);
+            }
         }
     }
 }

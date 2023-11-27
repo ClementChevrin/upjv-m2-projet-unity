@@ -6,33 +6,40 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    // Boutons du menu principals
     public Button boutonJouer;
     public Button boutonParametres;
     public Button boutonQuitter;
     public Button boutonEnregistrer;
 
+    // Parametres
     public Text texteTailleLabirynthe;
     public Text tailleLabiryntheTexte;
     private int tailleLabirynthe = 20;
     public Slider sliderTailleLabirynthe;
-    
+    public Text texteNbCles;
+    public Slider sliderNbCles;
+    public Text nbClesAffiche;
+    private int nbCles = 3;
+
     /**
      * Clic sur le bouton Jouer
     */
     public void Jouer()
     {
-        // Vérifier si la taille est dans la plage de 10 à 50.
+        // Vï¿½rifier si la taille est dans la plage de 10 ï¿½ 50.
         if (tailleLabirynthe >= 10 && tailleLabirynthe <= 50)
         {
             PlayerPrefs.SetInt("tailleLabirynthe", tailleLabirynthe);
+            PlayerPrefs.SetInt("nbCles", nbCles);
             PlayerPrefs.Save();
-            // Charger la scène avec la taille du labyrinthe sélectionnée.
+            // Charger la scï¿½ne avec la taille du labyrinthe sï¿½lectionnï¿½e.
             SceneManager.LoadScene("MazeScene");
         }
         else
         {
-            // Afficher un message d'erreur ou prendre une autre action appropriée.
-            Debug.LogError("La taille du labyrinthe doit être entre 10 et 50.");
+            // Afficher un message d'erreur ou prendre une autre action appropriï¿½e.
+            Debug.LogError("La taille du labyrinthe doit ï¿½tre entre 10 et 50.");
         }
     }
 
@@ -41,11 +48,18 @@ public class MenuManager : MonoBehaviour
         return (int)sliderTailleLabirynthe.value;
     }
 
+    private int GetNbCles()
+    {
+        return (int)sliderNbCles.value;
+    }
+
     public void Awake() 
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString();
+        nbClesAffiche.text = GetNbCles().ToString();
+        sliderNbCles.onValueChanged.AddListener(delegate { nbClesAffiche.text = GetNbCles().ToString(); });
         sliderTailleLabirynthe.onValueChanged.AddListener(delegate { tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString(); });
     }
 
@@ -55,7 +69,7 @@ public class MenuManager : MonoBehaviour
     }
 
     /**
-     * Clic sur le bouton de paramètres
+     * Clic sur le bouton de paramï¿½tres
     */
     public void Parametres()
     {
@@ -64,10 +78,9 @@ public class MenuManager : MonoBehaviour
 
     public void EnregistrerTailleLabirynthe()
     {
-        // Récupérer la taille du labyrinthe depuis le champ de saisie.
-        int newTailleLabirynthe = GetTailleLabirynthe();
-        // Enregistrer la nouvelle taille du labyrinthe et retour au menu.
-        tailleLabirynthe = newTailleLabirynthe;
+        // Enregistrer la nouvelle taille du labyrinthe et le nombre de cles puis retour au menu.
+        tailleLabirynthe = GetTailleLabirynthe();
+        nbCles = GetNbCles();
         ToggleParametres(true);
     }
 
@@ -80,6 +93,9 @@ public class MenuManager : MonoBehaviour
         texteTailleLabirynthe.gameObject.SetActive(!menuParametres);
         sliderTailleLabirynthe.gameObject.SetActive(!menuParametres);
         tailleLabiryntheTexte.gameObject.SetActive(!menuParametres);
+        texteNbCles.gameObject.SetActive(!menuParametres);
+        nbClesAffiche.gameObject.SetActive(!menuParametres);
+        sliderNbCles.gameObject.SetActive(!menuParametres);
     }
     /**
      * Clic sur le bouton de quitter
@@ -87,10 +103,10 @@ public class MenuManager : MonoBehaviour
     public void Quitter()
     {
         #if UNITY_EDITOR
-            // Code spécifique à l'éditeur Unity (par exemple, arrêter le mode de lecture dans l'éditeur).
+            // Code spï¿½cifique ï¿½ l'ï¿½diteur Unity (par exemple, arrï¿½ter le mode de lecture dans l'ï¿½diteur).
             UnityEditor.EditorApplication.isPlaying = false;
         #else
-            // Code spécifique à une version autonome (par exemple, build pour Windows, Mac, Linux).
+            // Code spï¿½cifique ï¿½ une version autonome (par exemple, build pour Windows, Mac, Linux).
             Application.Quit();
         #endif
     }
