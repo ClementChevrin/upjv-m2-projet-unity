@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
 
     private int totalKeys;
 
+    private bool sprint;
+    private bool crouched;
     public MazeUIManager mazeUiManager;
 
     // Paramètres pour l'effet de mouvement de la tête
@@ -75,6 +77,18 @@ public class Player : MonoBehaviour
         // Player movement
         Vector3 movement = Vector3.zero;
 
+        // Touche CTRL ou C pour s'accroupir et diviser la vitesse de déplacement par 2
+        if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.C)) && !crouched)
+        {
+            moveSpeed = 1.0f;
+            crouched = true;
+            // Abaissement de la caméra
+            transform.localPosition = new Vector3(transform.localPosition.x, 0.3f, transform.localPosition.z);
+        } else if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl) && !Input.GetKey(KeyCode.C) && crouched)
+        {
+            moveSpeed = 2.0f;
+            crouched = false;
+        }
         if (Input.GetKey(KeyCode.UpArrow))
         {
             movement += cameraForward;
@@ -92,6 +106,17 @@ public class Player : MonoBehaviour
             movement += Camera.main.transform.right;
         }
 
+        //Touche shift pour courir et doubler la vitesse de déplacement
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && !sprint)
+        {
+            moveSpeed = 3.0f;
+            sprint = true;
+        } else if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift) && sprint) {
+            moveSpeed = 2.0f;
+            sprint = false;
+        }
+
+        
         // Normalize the movement vector to avoid faster diagonal movement
         movement.Normalize();
 
