@@ -65,7 +65,7 @@ public class Bloc : MonoBehaviour
         return murEst;
     }
 
-    // Est appelé quand on explore un bloc, on rend invisible l'intérieur du bloc
+    // Est appelï¿½ quand on explore un bloc, on rend invisible l'intï¿½rieur du bloc
     public void Explore()
     {
         estExplore = true;
@@ -131,5 +131,27 @@ public class Bloc : MonoBehaviour
     public bool murEstIsActive()
     {
         return murEst.activeSelf;
+    }
+    
+    public int numberWallsActive()
+    {
+        int activeWallCount = 0;
+
+        if (murNordIsActive()) activeWallCount++;
+        if (murSudIsActive()) activeWallCount++;
+        if (murOuestIsActive()) activeWallCount++;
+        if (murEstIsActive()) activeWallCount++;
+
+        return activeWallCount;
+    }
+
+    public string corridor()
+    {
+        if(numberWallsActive() == 2 && ((!murNordIsActive() && !murSudIsActive())^(!murOuestIsActive() && !murEstIsActive())))
+        {
+            if(!murNordIsActive() && !murSudIsActive()) return "NS";
+            else return "OE";
+        }
+        return null;
     }
 }

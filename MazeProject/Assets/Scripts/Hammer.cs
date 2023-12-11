@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Key : MonoBehaviour
+public class Hammer : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject expectedObject = null;
-
-    [SerializeField]
-    private string playerTag = "Player";
-
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +20,12 @@ public class Key : MonoBehaviour
     {
         if (expectedObject != null && other.CompareTag(playerTag))
         {
-            gameObject.SetActive(false);
-
             Player playerScript = other.GetComponent<Player>();
             if (playerScript != null)
             {
-                playerScript.CollectKey();
+                if (playerScript.collectItem(gameObject)) {
+                    gameObject.SetActive(false);
+                }
             }
         }
     }

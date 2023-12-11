@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private bool crouched;
     public MazeUIManager mazeUiManager;
 
+    private GameObject[] items = new GameObject[3] { null, null, null;
+
     // Paramètres pour l'effet de mouvement de la tête
     private float bobbingSpeed = 14;
     private float bobbingAmount = 0.05f;
@@ -82,13 +84,16 @@ public class Player : MonoBehaviour
         {
             moveSpeed = 1.0f;
             crouched = true;
-            // Abaissement de la caméra
-            transform.localPosition = new Vector3(transform.localPosition.x, 0.3f, transform.localPosition.z);
+            midpoint = 0.2f;
+            movement.y = -0.2f;
         } else if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl) && !Input.GetKey(KeyCode.C) && crouched)
         {
+            midpoint = 0.6f;
             moveSpeed = 2.0f;
+            movement.y = 0.2f;
             crouched = false;
         }
+
         if (Input.GetKey(KeyCode.UpArrow))
         {
             movement += cameraForward;
@@ -107,7 +112,7 @@ public class Player : MonoBehaviour
         }
 
         //Touche shift pour courir et doubler la vitesse de déplacement
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && !sprint)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && !sprint)
         {
             moveSpeed = 3.0f;
             sprint = true;
@@ -116,7 +121,17 @@ public class Player : MonoBehaviour
             sprint = false;
         }
 
-        
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
+            ChangeItem(Input.GetAxis("Mouse ScrollWheel"));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            mazeUiManager.setItem(1);
+        } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            mazeUiManager.setItem(2);
+        } else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            mazeUiManager.setItem(3);
+        }
+
         // Normalize the movement vector to avoid faster diagonal movement
         movement.Normalize();
 
@@ -127,6 +142,15 @@ public class Player : MonoBehaviour
         HeadBobbing();
     }
 
+    private void ChangeItem(float scroll) {
+        if (scroll > 0f) {
+            //Scroll up
+            mazeUiManager.ChangeItem(1);
+        } else {
+            //Scroll down
+            mazeUiManager.ChangeItem(-1);
+        }
+    }
     void HeadBobbing()
     {
         if (Mathf.Abs(characterController.velocity.x) > 0.1f || Mathf.Abs(characterController.velocity.z) > 0.1f)
@@ -154,7 +178,7 @@ public class Player : MonoBehaviour
         else
         {
             // Si le joueur est immobile, ramener la tête à la position d'origine
-            transform.localPosition = new Vector3(transform.localPosition.x, 0.6f, transform.localPosition.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, midpoint, transform.localPosition.z);
             timer = 0.0f;
         }
     }
@@ -186,5 +210,20 @@ public class Player : MonoBehaviour
             sas[1].GetComponentInChildren<Porte>().GetComponent<Collider>().isTrigger = true;
             mazeUiManager.UpdateObjective();
         }
+    }
+
+    public bool CollectItem(GameObject item) {
+        // On cherche un emplacement vide dans le tableau
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] == null)
+            {
+                // Ajouter l'objet au tableau
+                items[i] = item;
+                mazeUiManager.CollectItem(item);
+                return true;
+            }
+        }
+        return false;
     }
 }

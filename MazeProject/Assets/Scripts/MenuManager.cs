@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     public Button boutonEnregistrer;
 
     // Parametres
-    public Text texteTailleLabirynthe;
+    public Button texteTailleLabirynthe;
     public Text tailleLabiryntheTexte;
     private int tailleLabirynthe = 20;
     public Slider sliderTailleLabirynthe;

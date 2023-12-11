@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Maze : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class Maze : MonoBehaviour
 
     [SerializeField]
     private Key key; //pour appeler la preFab key
+
+    [SerializeField]
+    private Hammer hammer; //pour appeler la preFab hammer
+
+    [SerializeField]
+    private HalfWall halfWall; //pour appeler la preFab halfWall
 
     [SerializeField]
     private SAS sas;
@@ -71,7 +78,9 @@ public class Maze : MonoBehaviour
         addEntreeSortie();
         removeTorchEntreeSortie();
         addPlayer();
+        addHalfWalls();
         addKeys();
+        addHammers();
     }
 
     // Update is called once per frame
@@ -272,8 +281,7 @@ public class Maze : MonoBehaviour
         int keyX, keyZ;
 
         // Seulement 3 quarts des clés nécessaire pour ouvrir la porte
-        double numberOfKeysInMap_Double = numberOfKeys + (numberOfKeys/3);
-        int numberOfKeysInMap = (int)numberOfKeysInMap_Double;
+        int numberOfKeysInMap = (int)Mathf.RoundToInt(numberOfKeys + (numberOfKeys/3));
 
         keyX = random.Next(0, taille - 1);
         keyZ = random.Next(0, taille - 1);
@@ -281,15 +289,99 @@ public class Maze : MonoBehaviour
         // Placement des clés
         for (int i = 0; i < numberOfKeysInMap; i++)
         {
-            Key instKey = Instantiate(key, new Vector3((keyX * 2)- (float)0.5, (float)0.4, (keyZ * 2)), Quaternion.identity);
-            instKey.transform.SetParent(grille[keyX,keyZ].transform);
-
-            // On cherche une nouvelle position pour la clé
-            while (grille[keyX,keyZ].GetComponentInChildren<Key>())
+            // On cherche une position pour la clé
+            while (grille[keyX,keyZ].GetComponentInChildren<Key>() || grille[keyX,keyZ].GetComponentInChildren<Hammer>() || grille[keyX,keyZ].GetComponentInChildren<HalfWall>())
             {
                 keyX = random.Next(0, taille - 1);
                 keyZ = random.Next(0, taille - 1);
             }
+
+            Quaternion rotation = Quaternion.Euler(90, 0, random.Next(0, 360));     
+            Key instKey = Instantiate(key, new Vector3((keyX * 2)- (float)0.5, (float)0.4, (keyZ * 2)), rotation);
+
+            instKey.transform.SetParent(grille[keyX,keyZ].transform);
+        }
+    }
+
+    // Apparition des marteaux
+    public void addHammers()
+    {
+        int hammerX, hammerZ;
+
+        // Nombre de marteaux -> taille / 10 (entier le plus proche)
+        int numberOfHammersInMap = (int)Mathf.RoundToInt(taille / 10);
+
+        hammerX = random.Next(0, taille - 1);
+        hammerZ = random.Next(0, taille - 1);
+
+        // Placement des marteaux
+        for (int i = 0; i < numberOfHammersInMap; i++)
+        {
+            // On cherche une nouvelle position pour le marteau
+            while (grille[hammerX,hammerZ].GetComponentInChildren<Key>() || grille[hammerX,hammerZ].GetComponentInChildren<Hammer>() || grille[hammerX,hammerZ].GetComponentInChildren<HalfWall>())
+            {
+                hammerX = random.Next(0, taille - 1);
+                hammerZ = random.Next(0, taille - 1);
+            }
+
+            Quaternion rotation = Quaternion.Euler(0, random.Next(0, 360), 90); 
+            Hammer instHammer = Instantiate(hammer, new Vector3((hammerX * 2) - 0.5f, 0.4f, (hammerZ * 2)), rotation);
+
+            instHammer.transform.SetParent(grille[hammerX,hammerZ].transform);
+        }
+    }
+
+    // Apparition des demi-murs
+    public void addHalfWalls()
+    {
+        int halfWallX, halfWallZ;
+
+        // Nombre de demi-murs -> taille / 8 (entier le plus proche)
+        int numberOfHalfWallsInMap = (int)Mathf.RoundToInt(taille / 3);
+        bool positionOK = false;
+
+        halfWallX = random.Next(0, taille - 1);
+        halfWallZ = random.Next(0, taille - 1);
+
+        // Placement des demi-murs
+        for (int i = 0; i < numberOfHalfWallsInMap; i++)
+        {
+            string corridor = null;
+            positionOK = false;
+            // On cherche une nouvelle position pour le demi-mur
+            while (!positionOK)
+            {
+                if(!(grille[halfWallX,halfWallZ].GetComponentInChildren<Key>() || grille[halfWallX,halfWallZ].GetComponentInChildren<Hammer>() || grille[halfWallX,halfWallZ].GetComponentInChildren<HalfWall>()))
+                {
+                    Bloc blocConcerne = grille[halfWallX,halfWallZ];
+                    corridor = blocConcerne.corridor();
+                    if(corridor != null)
+                    {
+                        positionOK = true;
+                    }
+                    else
+                    {
+                        halfWallX = random.Next(0, taille - 1);
+                        halfWallZ = random.Next(0, taille - 1);
+                    }
+                }
+                else
+                {
+                    halfWallX = random.Next(0, taille - 1);
+                    halfWallZ = random.Next(0, taille - 1);
+                }
+            }
+
+            if(corridor == "NS")    
+            {
+                Quaternion rotation = Quaternion.Euler(0, 0, 180);
+            } 
+            else 
+            {
+                Quaternion rotation = Quaternion.Euler(0, 0, 0);
+            }
+            HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 0.4f, (halfWallZ * 2)), Quaternion.identity);
+            instHalfWall.transform.SetParent(grille[halfWallX,halfWallZ].transform);
         }
     }
 }

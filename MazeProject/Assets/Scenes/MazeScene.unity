@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 532937997}
   - component: {fileID: 532937996}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: barre_item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,6 +484,8 @@ MonoBehaviour:
   bloc: {fileID: 1788768684370610323, guid: ebd64e2dd258d80409c0a08fcd3794b6, type: 3}
   torch: {fileID: 2671173653651299732, guid: 17f551b7fb35b24458ce79892b4fe324, type: 3}
   key: {fileID: -8007912067647173, guid: 1f5469e5cbe8fd54294e1b769707257e, type: 3}
+  hammer: {fileID: -4418554729285599468, guid: f4f1e63bbc81c90429c4b045a676c8a6, type: 3}
+  halfWall: {fileID: -5253944792580303106, guid: ac73ba5965b3328458e8b184edcd383a, type: 3}
   sas: {fileID: 1744941134698758138, guid: a4308e906e9df164dbc84e10cc228aae, type: 3}
   joueur: {fileID: 1370133175637020553, guid: ec46a872bcb8d3242bce481b674a5ebd, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 32a94daa16fb2754792f64ba9068faaf, type: 3}
@@ -626,7 +628,7 @@ GameObject:
   - component: {fileID: 1520461495}
   - component: {fileID: 1520461494}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: select_item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -878,3 +880,5 @@ MonoBehaviour:
   keyCountText: {fileID: 481550099}
   objective: {fileID: 594350308}
   center: {fileID: 301921076}
+  selectedImage: {fileID: 1520461494}
+  winSound: {fileID: 8300000, guid: 25dca6ca90c0b884193a3122bf51464f, type: 3}
