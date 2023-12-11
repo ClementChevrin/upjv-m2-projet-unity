@@ -18,15 +18,15 @@ public class Hammer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (expectedObject != null && other.CompareTag(playerTag))
-        {
-            Player playerScript = other.GetComponent<Player>();
-            if (playerScript != null)
-            {
-                if (playerScript.collectItem(gameObject)) {
-                    gameObject.SetActive(false);
-                }
-            }
-        }
+        // if (expectedObject != null && other.CompareTag(playerTag))
+        // {
+        //     Player playerScript = other.GetComponent<Player>();
+        //     if (playerScript != null)
+        //     {
+        //         if (playerScript.collectItem(gameObject)) {
+        //             gameObject.SetActive(false);
+        //         }
+        //     }
+        // }
     }
 }

@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     private bool crouched;
     public MazeUIManager mazeUiManager;
 
-    private GameObject[] items = new GameObject[3] { null, null, null;
+    private GameObject[] items = new GameObject[3] { null, null, null };
 
     // Paramètres pour l'effet de mouvement de la tête
     private float bobbingSpeed = 14;
@@ -212,18 +212,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool CollectItem(GameObject item) {
-        // On cherche un emplacement vide dans le tableau
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (items[i] == null)
-            {
-                // Ajouter l'objet au tableau
-                items[i] = item;
-                mazeUiManager.CollectItem(item);
-                return true;
-            }
-        }
-        return false;
-    }
+    // public bool CollectItem(GameObject item) {
+    //     // On cherche un emplacement vide dans le tableau
+    //     for (int i = 0; i < items.Length; i++)
+    //     {
+    //         if (items[i] == null)
+    //         {
+    //             // Ajouter l'objet au tableau
+    //             items[i] = item;
+    //             mazeUiManager.CollectItem(item);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 }
