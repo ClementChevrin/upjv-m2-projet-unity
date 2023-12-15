@@ -23,10 +23,18 @@ public class MazeUIManager : MonoBehaviour
 
     private AudioSource audioSource;
     private int selectedItem = 1;
+
+    private Transform canvasTransform;
     // Start is called before the first frame update
     void Start()
     {
+        Canvas canvas = FindObjectOfType<Canvas>();
+        if (canvas != null)
+        {
+            canvasTransform = canvas.GetComponent<Transform>();
+        }
         audioSource = GetComponent<AudioSource>();
+
         if (audioSource == null)
         {
             // Si l'AudioSource n'est pas déjà attaché, ajoutez-le
@@ -106,7 +114,49 @@ public class MazeUIManager : MonoBehaviour
         moveSelectedItem();
     }
 
-    public void collectItem(GameObject item) {
-        
+    public void collectItem(GameObject item, int position)
+    {
+        // Récupération du Renderer associé à l'item
+        Renderer itemRenderer = item.GetComponent<Renderer>();
+
+        if (itemRenderer != null)
+        {
+            // Récupération de la texture du Renderer
+            Texture itemTexture = itemRenderer.material.mainTexture;
+
+            // Mettez en place la logique pour déterminer la position de l'image
+            Vector3 targetPosition = CalculateTargetPosition(position);
+
+            // Créer un GameObject pour l'image
+            GameObject imageObject = new GameObject("ItemImage");
+            RectTransform rectTransform = imageObject.AddComponent<RectTransform>();
+            RawImage rawImage = imageObject.AddComponent<RawImage>();
+            rawImage.texture = itemTexture;
+
+            // Placez l'image à la position cible
+            rectTransform.localPosition = targetPosition;
+            rectTransform.SetParent(canvasTransform); // Assurez-vous d'avoir une référence à votre Canvas
+
+            // Ajoutez d'autres propriétés ou composants au besoin
+        }
     }
+
+    // Fonction pour calculer la position cible en fonction de la position donnée
+    private Vector3 CalculateTargetPosition(int position)
+    {
+        // Ajoutez votre logique pour déterminer la position en fonction de la valeur 'position'
+        // Par exemple, utilisez un switch pour des positions spécifiques
+        switch (position)
+        {
+            case 1:
+                return new Vector3(-69.2f, 0f, 0f);
+            case 2:
+                return new Vector3(0f, 0f, 0f);
+            case 3:
+                return new Vector3(68.8f, 0f, 0f);
+            default:
+                return Vector3.zero;
+        }
+    }
+
 }

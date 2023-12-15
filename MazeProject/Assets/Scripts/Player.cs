@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private bool crouched;
     public MazeUIManager mazeUiManager;
 
+    [SerializeField]
     private GameObject[] items = new GameObject[3] { null, null, null };
 
     // Paramètres pour l'effet de mouvement de la tête
@@ -115,9 +116,11 @@ public class Player : MonoBehaviour
         if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && !sprint)
         {
             moveSpeed = 3.0f;
+            footstepDelay = 0.35f;
             sprint = true;
         } else if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift) && sprint) {
             moveSpeed = 2.0f;
+            footstepDelay = 0.5f;
             sprint = false;
         }
 
@@ -212,18 +215,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    // public bool CollectItem(GameObject item) {
-    //     // On cherche un emplacement vide dans le tableau
-    //     for (int i = 0; i < items.Length; i++)
-    //     {
-    //         if (items[i] == null)
-    //         {
-    //             // Ajouter l'objet au tableau
-    //             items[i] = item;
-    //             mazeUiManager.CollectItem(item);
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    public bool collectItem(GameObject item) {
+        // On cherche un emplacement vide dans le tableau
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] == null)
+            {
+                if (collectKeySound != null)
+                {
+                    audioSource.PlayOneShot(collectKeySound);
+                }
+                // Ajouter l'objet au tableau
+                items[i] = item;
+                mazeUiManager.collectItem(item, i + 1);
+
+                return true;
+            }
+        }
+        return false;
+    }
 }

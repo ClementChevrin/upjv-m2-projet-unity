@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
+    [SerializeField]
+    private string playerTag = "Player";
+    [SerializeField]
+    private GameObject expectedObject = null;
+    [SerializeField]
+    private Texture hammerImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,15 +25,15 @@ public class Hammer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // if (expectedObject != null && other.CompareTag(playerTag))
-        // {
-        //     Player playerScript = other.GetComponent<Player>();
-        //     if (playerScript != null)
-        //     {
-        //         if (playerScript.collectItem(gameObject)) {
-        //             gameObject.SetActive(false);
-        //         }
-        //     }
-        // }
+        if (expectedObject != null && other.CompareTag(playerTag))
+        {
+            Player playerScript = other.GetComponent<Player>();
+            if (playerScript != null)
+            {
+                if (playerScript.collectItem(gameObject)) {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
     }
 }
