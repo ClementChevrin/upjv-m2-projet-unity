@@ -17,7 +17,7 @@ public class MenuManager : MonoBehaviour
     public Text tailleLabiryntheTexte;
     private int tailleLabirynthe = 20;
     public Slider sliderTailleLabirynthe;
-    public Text texteNbCles;
+    public Button texteNbCles;
     public Slider sliderNbCles;
     public Text nbClesAffiche;
     private int nbCles = 3;

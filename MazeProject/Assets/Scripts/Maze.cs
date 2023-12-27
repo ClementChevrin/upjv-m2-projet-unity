@@ -46,6 +46,7 @@ public class Maze : MonoBehaviour
     public AudioClip backgroundMusic;
 
     private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -296,8 +297,8 @@ public class Maze : MonoBehaviour
                 keyZ = random.Next(0, taille - 1);
             }
 
-            Quaternion rotation = Quaternion.Euler(90, 0, random.Next(0, 360));     
-            Key instKey = Instantiate(key, new Vector3((keyX * 2)- (float)0.5, (float)0.4, (keyZ * 2)), rotation);
+            Quaternion rotation = Quaternion.Euler(0, random.Next(0, 360), 0);     
+            Key instKey = Instantiate(key, new Vector3((keyX * 2)- (float)0.5, (float)0.0, (keyZ * 2)), rotation);
 
             instKey.transform.SetParent(grille[keyX,keyZ].transform);
         }
@@ -325,7 +326,7 @@ public class Maze : MonoBehaviour
             }
 
             Quaternion rotation = Quaternion.Euler(0, random.Next(0, 360), 90); 
-            Hammer instHammer = Instantiate(hammer, new Vector3((hammerX * 2) - 0.5f, 0.4f, (hammerZ * 2)), rotation);
+            Hammer instHammer = Instantiate(hammer, new Vector3((hammerX * 2) - 0.5f, 0.02f, (hammerZ * 2)), rotation);
 
             instHammer.transform.SetParent(grille[hammerX,hammerZ].transform);
         }
@@ -348,6 +349,8 @@ public class Maze : MonoBehaviour
         {
             string corridor = null;
             positionOK = false;
+            Quaternion rotation;
+
             // On cherche une nouvelle position pour le demi-mur
             while (!positionOK)
             {
@@ -374,13 +377,13 @@ public class Maze : MonoBehaviour
 
             if(corridor == "NS")    
             {
-                Quaternion rotation = Quaternion.Euler(0, 0, 180);
+                rotation = Quaternion.Euler(90, 0, 180);
             } 
             else 
             {
-                Quaternion rotation = Quaternion.Euler(0, 0, 0);
+                rotation = Quaternion.Euler(90, 90, 0);
             }
-            HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 0.4f, (halfWallZ * 2)), Quaternion.identity);
+            HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 1.5f, (halfWallZ * 2)), rotation);
             instHalfWall.transform.SetParent(grille[halfWallX,halfWallZ].transform);
         }
     }
