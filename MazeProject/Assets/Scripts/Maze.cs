@@ -151,25 +151,25 @@ public class Maze : MonoBehaviour
             {
                 case 0:
                     if (grille[x, z].murNordIsActive()){
-                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)+(float)0.8), Quaternion.Euler(-45, 0, 0));
+                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)+(float)0.9), Quaternion.Euler(0, 180, 0));
                         isTorched = true;
                     }
                     break; // Nord
                 case 1:
                     if (grille[x, z].murOuestIsActive()){
-                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)1.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, -45));
+                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)1.4, (float)1.533, (z * 2)), Quaternion.Euler(0, 90, 0));
                         isTorched = true;
                     }
                     break; // Ouest
                 case 2:
                     if (grille[x, z].murSudIsActive()){
-                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)-(float)0.8), Quaternion.Euler(45, 0, 0));
+                        newTorch = Instantiate(torch, new Vector3((x * 2) - (float)0.5, (float)1.533, (z * 2)-(float)0.9), Quaternion.Euler(0, 0, 0));
                         isTorched = true;
                     }
                     break; // Sud
                 case 3:
                     if (grille[x, z].murEstIsActive()){
-                        newTorch = Instantiate(torch, new Vector3((x * 2) + (float)0.3, (float)1.533, (z * 2)), Quaternion.Euler(0, 0, 45));
+                        newTorch = Instantiate(torch, new Vector3((x * 2) + (float)0.4, (float)1.533, (z * 2)), Quaternion.Euler(0, -90, 0));
                         isTorched = true;
                     }
                     break; // Est
