@@ -385,6 +385,10 @@ public class Maze : MonoBehaviour
             }
             HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 1.5f, (halfWallZ * 2)), rotation);
             instHalfWall.transform.SetParent(grille[halfWallX,halfWallZ].transform);
+
+            //On rend invisible la torche si elle existe dans le bloc où se situe le demi-mur
+            Torch torche = grille[halfWallX, halfWallZ].GetComponentInChildren<Torch>();
+            if (torche != null) torche.gameObject.SetActive(false);
         }
     }
 }

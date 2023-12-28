@@ -89,10 +89,13 @@ public class Player : MonoBehaviour
             movement.y = -0.2f;
         } else if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl) && !Input.GetKey(KeyCode.C) && crouched)
         {
-            midpoint = 0.6f;
-            moveSpeed = 2.0f;
-            movement.y = 0.2f;
-            crouched = false;
+            if (!IsUnderHalfWall())
+            {
+                midpoint = 0.6f;
+                moveSpeed = 2.0f;
+                movement.y = 0.2f;
+                crouched = false;
+            }
         }
 
         if (Input.GetKey(KeyCode.UpArrow))
@@ -143,6 +146,24 @@ public class Player : MonoBehaviour
 
         // Effet de mouvement de la tête
         HeadBobbing();
+    }
+
+    private bool IsUnderHalfWall()
+    {
+        RaycastHit hit;
+        float rayLength = 1.0f;
+
+        // Lance un rayon vers le haut depuis la position du joueur
+        if (Physics.Raycast(transform.position, Vector3.up, out hit, rayLength))
+        {
+            // Vérifie si l'objet touché a un tag spécifique indiquant un demi-mur
+            if (hit.collider.CompareTag("DemiMur"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ChangeItem(float scroll) {
