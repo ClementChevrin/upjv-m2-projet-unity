@@ -52,7 +52,7 @@ public class MazeUIManager : MonoBehaviour
     {
         if (keyCountText != null)
         {
-            keyCountText.text = "Cl�s obtenues : " + keysCollected + "/" + totalKeys;
+            keyCountText.text = "Cles obtenues : " + keysCollected + "/" + totalKeys;
         }
     }
 
