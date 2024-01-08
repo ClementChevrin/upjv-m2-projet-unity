@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class MazeUIManager : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class MazeUIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject marteauNb;
+
+    [SerializeField]
+    public GameObject wallBreak;
 
     // Start is called before the first frame update
     void Start()
@@ -133,22 +137,43 @@ public class MazeUIManager : MonoBehaviour
         }
     }
 
-    // Fonction pour calculer la position cible en fonction de la position donnée
-    private Vector3 CalculateTargetPosition(int position)
+    public void useItem(GameObject hitObject)
     {
-        // Ajoutez votre logique pour déterminer la position en fonction de la valeur 'position'
-        // Par exemple, utilisez un switch pour des positions spécifiques
-        switch (position)
+        if (selectedItem == 1)
         {
-            case 1:
-                return new Vector3(-69.2f, 0f, 0f);
-            case 2:
-                return new Vector3(0f, 0f, 0f);
-            case 3:
-                return new Vector3(68.8f, 0f, 0f);
-            default:
-                return Vector3.zero;
+            int nb = int.Parse(marteauNb.GetComponent<Text>().text);
+            if (nb > 0 && System.Array.IndexOf(Bloc.murNames, hitObject.name) > -1)
+            {
+                // Détruisez l'ancien objet
+                hitObject.SetActive(false);
+
+                // Récupèration de la position de la caméra
+                Vector3 cameraPosition = Camera.main.transform.position;
+
+                // Récupèration de la direction de la caméra
+                Vector3 cameraDir = Camera.main.transform.forward;
+
+                // Récupèration des informations sur l'objet touché
+                RaycastHit hit;
+
+                // Longueur maximale du rayon lancé
+                float maxRaycastDistance = 1.5f;
+
+                // Lance un rayon depuis la position de la caméra dans la direction de la caméra
+                if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance)) {
+                    hit.collider.gameObject.SetActive(false);
+                } else {
+                    hitObject.SetActive(true);
+                    return;
+                }
+
+                nb--;
+                marteauNb.GetComponent<Text>().text = nb.ToString();
+                if (nb == 0) {
+                    marteauImg.SetActive(false);
+                    marteauNb.SetActive(false);
+                }
+            }
         }
     }
-
 }

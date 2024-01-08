@@ -80,6 +80,28 @@ public class Player : MonoBehaviour
         // Player movement
         Vector3 movement = Vector3.zero;
 
+        // Clic gauche ou E pour utiliser l'objet
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+        {
+            // Récupèration de la position de la caméra
+            Vector3 cameraPosition = Camera.main.transform.position;
+
+            // Récupèration de la direction de la caméra
+            Vector3 cameraDir = Camera.main.transform.forward;
+
+            // Récupèration des informations sur l'objet touché
+            RaycastHit hit;
+
+            // Longueur maximale du rayon lancé
+            float maxRaycastDistance = 1.5f;
+
+            // Lance un rayon depuis la position de la caméra dans la direction de la caméra
+            if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance))
+            {
+                mazeUiManager.useItem(hit.collider.gameObject);
+            }
+        }
+
         // Touche CTRL ou C pour s'accroupir et diviser la vitesse de déplacement par 2
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.C)) && !crouched)
         {
@@ -127,9 +149,12 @@ public class Player : MonoBehaviour
             sprint = false;
         }
 
+        // Scroll de la souris pour changer d'objet
         if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
             ChangeItem(Input.GetAxis("Mouse ScrollWheel"));
         }
+
+        // Touche 1, 2 ou 3 pour changer d'objet
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             mazeUiManager.setItem(1);
         } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
@@ -237,6 +262,9 @@ public class Player : MonoBehaviour
     }
 
     public bool collectItem(GameObject item) {
+        if (item.GetComponent<Hammer>() != null) {
+            items[0] = item;
+        }
         if (collectKeySound != null)
         {
             audioSource.PlayOneShot(collectKeySound);

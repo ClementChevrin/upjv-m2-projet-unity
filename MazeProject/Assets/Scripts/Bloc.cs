@@ -29,6 +29,18 @@ public class Bloc : MonoBehaviour
     [SerializeField]
     private GameObject pyloneSudOuest;
 
+    [SerializeField]
+    private GameObject murCasseNord;
+
+    [SerializeField]
+    private GameObject murCasseSud;
+
+    [SerializeField]
+    private GameObject murCasseOuest;
+
+    [SerializeField]
+    private GameObject murCasseEst;
+    public static readonly string[] murNames = { "MurNord", "MurSud", "MurEst", "MurOuest" };
 
     // Ne sert a rien aussi du coup
     private bool estExplore = false;
@@ -80,21 +92,25 @@ public class Bloc : MonoBehaviour
     public void RemoveMurNord()
     {
         murNord.SetActive(false);
+        murCasseNord.SetActive(false);
     }
 
     public void RemoveMurSud()
     {
         murSud.SetActive(false);
+        murCasseSud.SetActive(false);
     }
 
     public void RemoveMurOuest()
     {
         murOuest.SetActive(false);
+        murCasseOuest.SetActive(false);
     }
 
     public void RemoveMurEst()
     {
         murEst.SetActive(false);
+        murCasseEst.SetActive(false);
     }
 
     public void setCorner(bool nordOuest,bool nordEst,bool sudOuest,bool sudEst)
