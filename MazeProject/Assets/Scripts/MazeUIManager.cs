@@ -25,6 +25,13 @@ public class MazeUIManager : MonoBehaviour
     private int selectedItem = 1;
 
     private Transform canvasTransform;
+
+    [SerializeField]
+    private GameObject marteauImg;
+
+    [SerializeField]
+    private GameObject marteauNb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,30 +121,15 @@ public class MazeUIManager : MonoBehaviour
         moveSelectedItem();
     }
 
-    public void collectItem(GameObject item, int position)
+    public void collectItem(GameObject item)
     {
-        // Récupération du Renderer associé à l'item
-        Renderer itemRenderer = item.GetComponent<Renderer>();
-
-        if (itemRenderer != null)
+        if (item.GetComponent<Hammer>() != null)
         {
-            // Récupération de la texture du Renderer
-            Texture itemTexture = itemRenderer.material.mainTexture;
-
-            // Mettez en place la logique pour déterminer la position de l'image
-            Vector3 targetPosition = CalculateTargetPosition(position);
-
-            // Créer un GameObject pour l'image
-            GameObject imageObject = new GameObject("ItemImage");
-            RectTransform rectTransform = imageObject.AddComponent<RectTransform>();
-            RawImage rawImage = imageObject.AddComponent<RawImage>();
-            rawImage.texture = itemTexture;
-
-            // Placez l'image à la position cible
-            rectTransform.localPosition = targetPosition;
-            rectTransform.SetParent(canvasTransform); // Assurez-vous d'avoir une référence à votre Canvas
-
-            // Ajoutez d'autres propriétés ou composants au besoin
+            marteauImg.SetActive(true);
+            marteauNb.SetActive(true);
+            int nb = int.Parse(marteauNb.GetComponent<Text>().text);
+            nb++;
+            marteauNb.GetComponent<Text>().text = nb.ToString();
         }
     }
 

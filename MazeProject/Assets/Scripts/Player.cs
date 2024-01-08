@@ -237,22 +237,11 @@ public class Player : MonoBehaviour
     }
 
     public bool collectItem(GameObject item) {
-        // On cherche un emplacement vide dans le tableau
-        for (int i = 0; i < items.Length; i++)
+        if (collectKeySound != null)
         {
-            if (items[i] == null)
-            {
-                if (collectKeySound != null)
-                {
-                    audioSource.PlayOneShot(collectKeySound);
-                }
-                // Ajouter l'objet au tableau
-                items[i] = item;
-                mazeUiManager.collectItem(item, i + 1);
-
-                return true;
-            }
+            audioSource.PlayOneShot(collectKeySound);
         }
-        return false;
+        mazeUiManager.collectItem(item);
+        return true;
     }
 }

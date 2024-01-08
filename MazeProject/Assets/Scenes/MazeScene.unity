@@ -706,7 +706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1653687966
 RectTransform:
   m_ObjectHideFlags: 0
@@ -760,7 +760,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: x1
+  m_Text: 0
 --- !u!222 &1653687968
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -786,7 +786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1677288277
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1037,3 +1037,5 @@ MonoBehaviour:
   center: {fileID: 301921076}
   selectedImage: {fileID: 1520461494}
   winSound: {fileID: 8300000, guid: 25dca6ca90c0b884193a3122bf51464f, type: 3}
+  marteauImg: {fileID: 0}
+  marteauNb: {fileID: 0}
