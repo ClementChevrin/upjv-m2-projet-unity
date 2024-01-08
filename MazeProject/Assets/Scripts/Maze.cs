@@ -42,6 +42,8 @@ public class Maze : MonoBehaviour
 
     private Bloc[,] grille;
 
+    private int[,] grillePathNumber;
+
     // Sons
     public AudioClip backgroundMusic;
 
@@ -57,6 +59,13 @@ public class Maze : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         audioSource.PlayOneShot(backgroundMusic, 0.2f);
+
+        // Assurez-vous que l'audio est configuré pour être en boucle
+        audioSource.clip = backgroundMusic;
+        audioSource.loop = true;
+        audioSource.volume = 0.2f;
+        audioSource.Play();
+
         taille = PlayerPrefs.GetInt("tailleLabirynthe", 20);
         numberOfKeys = PlayerPrefs.GetInt("nbCles", 3);
         //On cr�e la grille et on la remplie de la prefab Bloc
@@ -82,6 +91,11 @@ public class Maze : MonoBehaviour
         addHalfWalls();
         addKeys();
         addHammers();
+
+        // Grille contenant les valeur de pas (bloc d'entrée=0, bloc de sortie=nombreMinimumDePasPourFinirLabyrinthe)
+        grillePathNumber = new int[taille,taille];
+        mazePathNumber(xEntree,0,1);
+        // affMazePathNumber();
     }
 
     // Update is called once per frame
@@ -136,6 +150,76 @@ public class Maze : MonoBehaviour
         {
             //Ajout des torches
             generationTorchInMaze(x, z, directions);
+        }
+    }
+
+    public void affMazePathNumber()
+    {
+        for(int y=0;y<taille;y++)
+        {
+            string result = "";
+            for(int x=0;x<taille;x++)
+            {
+                result += "|" + grillePathNumber[x,y];
+                int espaces = 3 - grillePathNumber[x,y].ToString().Length;
+                result += "|";
+                if(espaces > 0)
+                {
+                    for(int u = 0;u<espaces;u++)
+                    {
+                        result += " ";
+                    }
+                }
+            }
+            Debug.Log(result);
+        }   
+    }
+
+
+
+    public void mazePathNumber(int x, int y, int number)
+    {
+        grillePathNumber[x,y] = number;
+
+        if(!grille[x,y].murNordIsActive())
+        {
+            if(y+1<taille && y+1 >= 0)
+            {
+                if(grillePathNumber[x,y+1] == 0)
+                {
+                    mazePathNumber(x,y+1,number+1);
+                }
+            }
+        }
+        if(!grille[x,y].murEstIsActive())
+        {
+            if(x+1<taille && x+1 >= 0)
+            {
+                if(grillePathNumber[x+1,y] == 0)
+                {
+                    mazePathNumber(x+1,y,number+1);
+                }
+            }
+        }
+        if(!grille[x,y].murSudIsActive())
+        {
+            if(y-1<taille && y-1 >= 0)
+            {
+                if(grillePathNumber[x,y-1] == 0)
+                {
+                    mazePathNumber(x,y-1,number+1);
+                }
+            }
+        }
+        if(!grille[x,y].murOuestIsActive())
+        {
+            if(x-1<taille && x-1 >= 0)
+            {
+                if(grillePathNumber[x-1,y] == 0)
+                {
+                    mazePathNumber(x-1,y,number+1);
+                }
+            }
         }
     }
 
@@ -383,7 +467,7 @@ public class Maze : MonoBehaviour
             {
                 rotation = Quaternion.Euler(90, 90, 0);
             }
-            HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 1.5f, (halfWallZ * 2)), rotation);
+            HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 1.4f, (halfWallZ * 2)), rotation);
             instHalfWall.transform.SetParent(grille[halfWallX,halfWallZ].transform);
 
             //On rend invisible la torche si elle existe dans le bloc où se situe le demi-mur

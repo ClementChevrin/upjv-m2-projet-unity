@@ -22,6 +22,12 @@ public class MazeUIManager : MonoBehaviour
     [SerializeField]
     public AudioClip winSound;
 
+    [SerializeField]
+    public AudioClip marteauSound;
+
+    [SerializeField]
+    public AudioClip murSound;
+
     private AudioSource audioSource;
     private int selectedItem = 1;
 
@@ -141,6 +147,7 @@ public class MazeUIManager : MonoBehaviour
     {
         if (selectedItem == 1)
         {
+            audioSource.PlayOneShot(marteauSound);
             int nb = int.Parse(marteauNb.GetComponent<Text>().text);
             if (nb > 0 && System.Array.IndexOf(Bloc.murNames, hitObject.name) > -1)
             {
@@ -166,7 +173,7 @@ public class MazeUIManager : MonoBehaviour
                     hitObject.SetActive(true);
                     return;
                 }
-
+                audioSource.PlayOneShot(murSound);
                 nb--;
                 marteauNb.GetComponent<Text>().text = nb.ToString();
                 if (nb == 0) {
