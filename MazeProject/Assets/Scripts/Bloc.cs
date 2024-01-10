@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bloc : MonoBehaviour
 {
+    // [SerializeField]
+    // private GameObject sol;
 
     [SerializeField]
     private GameObject murNord;

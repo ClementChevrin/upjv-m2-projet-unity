@@ -223,6 +223,63 @@ public class Maze : MonoBehaviour
         }
     }
 
+//     public void generationHoleInMaze()
+//     {
+//         int holeX, holeZ;
+
+//         // Nombre de demi-murs -> taille / 8 (entier le plus proche)
+//         int numberOfHalfWallsInMap = (int)Mathf.RoundToInt(taille / 7);
+//         bool positionOK = false;
+
+//         halfWallX = random.Next(0, taille - 1);
+//         halfWallZ = random.Next(0, taille - 1);
+
+//         // Placement des trous
+//         for (int i = 0; i < numberOfHalfWallsInMap; i++)
+//         {
+//             positionOK = false;
+// *
+//             // On cherche une nouvelle position pour le trou
+//             while (!positionOK)
+//             {
+//                 if(!(grille[halfWallX,halfWallZ].GetComponentInChildren<Key>() || grille[halfWallX,halfWallZ].GetComponentInChildren<Hammer>() || grille[halfWallX,halfWallZ].GetComponentInChildren<HalfWall>()))
+//                 {
+//                     Bloc blocConcerne = grille[halfWallX,halfWallZ];
+//                     corridor = blocConcerne.corridor();
+//                     if(corridor != null)
+//                     {
+//                         positionOK = true;
+//                     }
+//                     else
+//                     {
+//                         halfWallX = random.Next(0, taille - 1);
+//                         halfWallZ = random.Next(0, taille - 1);
+//                     }
+//                 }
+//                 else
+//                 {
+//                     halfWallX = random.Next(0, taille - 1);
+//                     halfWallZ = random.Next(0, taille - 1);
+//                 }
+//             }
+
+//             if(corridor == "NS")    
+//             {
+//                 rotation = Quaternion.Euler(90, 0, 180);
+//             } 
+//             else 
+//             {
+//                 rotation = Quaternion.Euler(90, 90, 0);
+//             }
+//             HalfWall instHalfWall = Instantiate(halfWall, new Vector3((halfWallX * 2) - 0.5f, 1.4f, (halfWallZ * 2)), rotation);
+//             instHalfWall.transform.SetParent(grille[halfWallX,halfWallZ].transform);
+
+//             //On rend invisible la torche si elle existe dans le bloc où se situe le demi-mur
+//             Torch torche = grille[halfWallX, halfWallZ].GetComponentInChildren<Torch>();
+//             if (torche != null) torche.gameObject.SetActive(false);
+//         }
+//     }
+
     //Fonction d'ajout des torches
     public void generationTorchInMaze(int x, int z, int[] directions)
     {
