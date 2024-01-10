@@ -276,6 +276,7 @@ MonoBehaviour:
   pyloneNordEst: {fileID: 4568092831246350188}
   pyloneSudEst: {fileID: 5494596858211694194}
   pyloneSudOuest: {fileID: 8415588592162789611}
+  sol: {fileID: 449494538363334250}
   murCasseNord: {fileID: 5095545354043192148}
   murCasseSud: {fileID: 3648297550809028276}
   murCasseOuest: {fileID: 842756321799663634}

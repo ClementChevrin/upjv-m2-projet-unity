@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Bloc : MonoBehaviour
 {
-    // [SerializeField]
-    // private GameObject sol;
-
+    
     [SerializeField]
     private GameObject murNord;
 
@@ -30,6 +28,9 @@ public class Bloc : MonoBehaviour
 
     [SerializeField]
     private GameObject pyloneSudOuest;
+
+    [SerializeField]
+    private GameObject sol;
 
     [SerializeField]
     private GameObject murCasseNord;
@@ -79,6 +80,11 @@ public class Bloc : MonoBehaviour
         return murEst;
     }
 
+    public GameObject getSol()
+    {
+        return sol;
+    }
+
     // Est appel� quand on explore un bloc, on rend invisible l'int�rieur du bloc
     public void Explore()
     {
@@ -115,6 +121,11 @@ public class Bloc : MonoBehaviour
         murCasseEst.SetActive(false);
     }
 
+    public void RemoveSol()
+    {
+        sol.SetActive(false);
+    }
+
     public void setCorner(bool nordOuest,bool nordEst,bool sudOuest,bool sudEst)
     {
         pyloneNordEst.SetActive(nordEst);
@@ -149,6 +160,11 @@ public class Bloc : MonoBehaviour
     public bool murEstIsActive()
     {
         return murEst.activeSelf;
+    }
+
+    public bool solIsActive()
+    {
+        return sol.activeSelf;
     }
     
     public int numberWallsActive()

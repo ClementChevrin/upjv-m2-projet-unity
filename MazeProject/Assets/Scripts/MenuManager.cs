@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour
         else
         {
             // Afficher un message d'erreur ou prendre une autre action appropri�e.
-            Debug.LogError("La taille du labyrinthe doit �tre entre 10 et 50.");
+            Debug.LogError("La taille du labyrinthe doit �tre entre 10 et 30.");
         }
     }
 
@@ -68,10 +68,10 @@ public class MenuManager : MonoBehaviour
         }
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString();
-        nbClesAffiche.text = GetNbCles().ToString();
-        sliderNbCles.onValueChanged.AddListener(delegate { nbClesAffiche.text = GetNbCles().ToString(); });
-        sliderTailleLabirynthe.onValueChanged.AddListener(delegate { tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString(); });
+        tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString() + " blocs";
+        nbClesAffiche.text = GetNbCles().ToString() + " clés";
+        sliderNbCles.onValueChanged.AddListener(delegate { nbClesAffiche.text = GetNbCles().ToString() + " clés"; });
+        sliderTailleLabirynthe.onValueChanged.AddListener(delegate { tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString() + " blocs"; });
     }
 
     public void Update()
