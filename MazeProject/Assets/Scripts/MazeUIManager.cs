@@ -31,6 +31,9 @@ public class MazeUIManager : MonoBehaviour
     [SerializeField]
     public AudioClip caillouSound;
 
+    [SerializeField]
+    public AudioClip plancheSound;
+
     private AudioSource audioSource;
     private int selectedItem = 1;
 
@@ -55,6 +58,8 @@ public class MazeUIManager : MonoBehaviour
     [SerializeField]
     private Caillou caillou;
 
+    [SerializeField]
+    private Plancher plancher;
     // Start is called before the first frame update
     void Start()
     {
@@ -218,6 +223,19 @@ public class MazeUIManager : MonoBehaviour
                     itemsNb[index]--;
                     caillouNb.GetComponent<Text>().text = itemsNb[index].ToString();
                 }
+            }
+        } else if (index == 2) {
+            bool meshRendererEnabled = hitObject.GetComponent<MeshRenderer>().enabled;
+            if (itemsNb[index] > 0 && hitObject.name == "Sol" && !meshRendererEnabled && hitObject.transform.childCount == 0) {
+                Plancher plancherInst = Instantiate(plancher, new Vector3(hitObject.transform.position.x + 0.45f, hitObject.transform.position.y + 0.2f, hitObject.transform.position.z + -0.05f), Quaternion.identity);
+                plancherInst.transform.SetParent(hitObject.transform);
+                BoxCollider collider = hitObject.GetComponent<BoxCollider>();
+                collider.size = new Vector3(collider.size.x, 1, collider.size.z);
+                if (audioSource != null) {
+                    audioSource.PlayOneShot(plancheSound);
+                }
+                itemsNb[index]--;
+                plancheNb.GetComponent<Text>().text = itemsNb[index].ToString();
             }
         }
     }

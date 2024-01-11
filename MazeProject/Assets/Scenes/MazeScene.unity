@@ -1351,6 +1351,7 @@ MonoBehaviour:
   marteauSound: {fileID: 8300000, guid: ea9cda9978a2bf04983b2b41efc11e5e, type: 3}
   murSound: {fileID: 8300000, guid: 018a4083351538046b592cca4f02e0ba, type: 3}
   caillouSound: {fileID: 8300000, guid: 92b6a808fbed6184cb8cc395465338b5, type: 3}
+  plancheSound: {fileID: 8300000, guid: 28ee5da0dbda7294e806a7a1e09d3a75, type: 3}
   marteauImg: {fileID: 1677288276}
   marteauNb: {fileID: 1653687965}
   caillouImg: {fileID: 1588414219}
@@ -1358,3 +1359,4 @@ MonoBehaviour:
   plancheImg: {fileID: 416470838}
   plancheNb: {fileID: 1834665360}
   caillou: {fileID: 5079268888360619609, guid: 62aba41c243b8094280619a995ef810c, type: 3}
+  plancher: {fileID: 3045616357298435868, guid: 06b57ac8ac28345b785a58049d923c34, type: 3}
