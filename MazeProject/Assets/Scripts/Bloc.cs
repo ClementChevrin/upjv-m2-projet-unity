@@ -188,4 +188,20 @@ public class Bloc : MonoBehaviour
         }
         return null;
     }
+
+    public GameObject getMureCasse(string direction)
+    {
+        switch (direction)
+        {
+            case "Nord":
+                return murCasseNord;
+            case "Sud":
+                return murCasseSud;
+            case "Ouest":
+                return murCasseOuest;
+            case "Est":
+                return murCasseEst;
+        }
+        return null;
+    }
 }

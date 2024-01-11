@@ -151,6 +151,11 @@ public class MazeUIManager : MonoBehaviour
             int nb = int.Parse(marteauNb.GetComponent<Text>().text);
             if (nb > 0 && System.Array.IndexOf(Bloc.murNames, hitObject.name) > -1)
             {
+                GameObject bloc = hitObject.transform.parent.gameObject;
+                string orientation = hitObject.name.Split("Mur")[1];
+                GameObject murCasse = bloc.GetComponent<Bloc>().getMureCasse(orientation);
+                murCasse.SetActive(true);
+                
                 // Détruisez l'ancien objet
                 hitObject.SetActive(false);
 
@@ -167,6 +172,8 @@ public class MazeUIManager : MonoBehaviour
                 float maxRaycastDistance = 1.5f;
 
                 // Lance un rayon depuis la position de la caméra dans la direction de la caméra
+                // Si il y a bien un autre objet derrière le mur cassé on le casse bien
+                // Sinon on le remet car on est au bord du labyrinthe
                 if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance)) {
                     hit.collider.gameObject.SetActive(false);
                 } else {
