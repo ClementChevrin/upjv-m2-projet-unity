@@ -28,6 +28,9 @@ public class MazeUIManager : MonoBehaviour
     [SerializeField]
     public AudioClip murSound;
 
+    [SerializeField]
+    public AudioClip caillouSound;
+
     private AudioSource audioSource;
     private int selectedItem = 1;
 
@@ -40,7 +43,17 @@ public class MazeUIManager : MonoBehaviour
     private GameObject marteauNb;
 
     [SerializeField]
-    public GameObject wallBreak;
+    private GameObject caillouImg;
+
+    [SerializeField]
+    private GameObject caillouNb;
+    [SerializeField]
+    private GameObject plancheImg;
+
+    [SerializeField]
+    private GameObject plancheNb;
+    [SerializeField]
+    private Caillou caillou;
 
     // Start is called before the first frame update
     void Start()
@@ -131,25 +144,24 @@ public class MazeUIManager : MonoBehaviour
         moveSelectedItem();
     }
 
-    public void collectItem(GameObject item)
+    public void collectItem(GameObject item, int number)
     {
         if (item.GetComponent<Hammer>() != null)
         {
-            marteauImg.SetActive(true);
-            marteauNb.SetActive(true);
-            int nb = int.Parse(marteauNb.GetComponent<Text>().text);
-            nb++;
-            marteauNb.GetComponent<Text>().text = nb.ToString();
+            marteauNb.GetComponent<Text>().text = number.ToString();
+        } else if (item.GetComponent<Planche>() != null)
+        {
+            plancheNb.GetComponent<Text>().text = number.ToString();
         }
     }
 
-    public void useItem(GameObject hitObject)
+    public void useItem(GameObject hitObject, int[] itemsNb)
     {
-        if (selectedItem == 1)
+        int index = selectedItem - 1;
+        if (index == 0)
         {
             audioSource.PlayOneShot(marteauSound);
-            int nb = int.Parse(marteauNb.GetComponent<Text>().text);
-            if (nb > 0 && System.Array.IndexOf(Bloc.murNames, hitObject.name) > -1)
+            if (itemsNb[index] > 0 && System.Array.IndexOf(Bloc.murNames, hitObject.name) > -1)
             {
                 GameObject bloc = hitObject.transform.parent.gameObject;
                 string orientation = hitObject.name.Split("Mur")[1];
@@ -176,18 +188,44 @@ public class MazeUIManager : MonoBehaviour
                 // Sinon on le remet car on est au bord du labyrinthe
                 if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance)) {
                     hit.collider.gameObject.SetActive(false);
+                    string orientation2 = hit.collider.gameObject.name.Split("Mur")[1];
+                    GameObject murCasse2 = hit.collider.gameObject.transform.parent.gameObject.GetComponent<Bloc>().getMureCasse(orientation2);
+                    murCasse2.SetActive(true);
                 } else {
                     hitObject.SetActive(true);
                     return;
                 }
                 audioSource.PlayOneShot(murSound);
-                nb--;
-                marteauNb.GetComponent<Text>().text = nb.ToString();
-                if (nb == 0) {
-                    marteauImg.SetActive(false);
-                    marteauNb.SetActive(false);
+                itemsNb[index]--;
+                marteauNb.GetComponent<Text>().text = itemsNb[index].ToString();
+            }
+        } else if (index == 1) {
+            // Lâcher de caillou là où le joueur est
+            if (itemsNb[index] > 0) {
+                Vector3 cameraPosition = Camera.main.transform.position;
+                Vector3 cameraDir = Camera.main.transform.forward;
+                RaycastHit hit;
+                float maxRaycastDistance = 1.5f;
+                if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance)) {
+                    Vector3 position = hit.point;
+                    position.y = 0;
+                    Caillou caillouInst = Instantiate(caillou, position, Quaternion.identity);
+                    if (audioSource != null) {
+                        audioSource.PlayOneShot(caillouSound);
+                    }
+                    caillouInst.transform.SetParent(hit.collider.gameObject.transform);
+
+                    itemsNb[index]--;
+                    caillouNb.GetComponent<Text>().text = itemsNb[index].ToString();
                 }
             }
         }
+    }
+
+    public void setItems(int[] itemsNb)
+    {
+        marteauNb.GetComponent<Text>().text = itemsNb[0].ToString();
+        caillouNb.GetComponent<Text>().text = itemsNb[1].ToString();
+        plancheNb.GetComponent<Text>().text = itemsNb[2].ToString();
     }
 }

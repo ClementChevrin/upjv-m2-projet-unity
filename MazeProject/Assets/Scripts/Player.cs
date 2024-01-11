@@ -19,7 +19,12 @@ public class Player : MonoBehaviour
     public MazeUIManager mazeUiManager;
 
     [SerializeField]
-    private GameObject[] items = new GameObject[3] { null, null, null };
+    public int[] items = {0, 0, 0};
+
+    public int nbCailloux = 10;
+    public int hammerKey = 0;
+    public int caillouKey = 1;
+    public int plancheKey = 2;
 
     // Paramètres pour l'effet de mouvement de la tête
     private float bobbingSpeed = 14;
@@ -40,6 +45,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        items[caillouKey] = nbCailloux;
         if(characterController == null)
         {
             characterController = GetComponent<CharacterController>();
@@ -63,7 +69,7 @@ public class Player : MonoBehaviour
         }
 
         mazeUiManager = FindObjectOfType<MazeUIManager>();
-        //MazeUIManager mazeUiManager = FindObjectOfType<MazeUIManager>();
+        mazeUiManager.setItems(items);
         mazeUiManager.UpdateKeyCount(keysCollected, totalKeys);
     }
 
@@ -98,7 +104,7 @@ public class Player : MonoBehaviour
             // Lance un rayon depuis la position de la caméra dans la direction de la caméra
             if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance))
             {
-                mazeUiManager.useItem(hit.collider.gameObject);
+                mazeUiManager.useItem(hit.collider.gameObject, items);
             }
         }
 
@@ -120,7 +126,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             movement += cameraForward;
         }
@@ -128,7 +134,7 @@ public class Player : MonoBehaviour
         {
             movement -= cameraForward;
         }
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             movement -= Camera.main.transform.right;
         }
@@ -262,14 +268,19 @@ public class Player : MonoBehaviour
     }
 
     public bool collectItem(GameObject item) {
+        int index = 0;
         if (item.GetComponent<Hammer>() != null) {
-            items[0] = item;
+            index = hammerKey;
+        } else if (item.GetComponent<Planche>() != null) {
+            index = plancheKey;
         }
+
+        items[index]++;
         if (collectKeySound != null)
         {
             audioSource.PlayOneShot(collectKeySound);
         }
-        mazeUiManager.collectItem(item);
+        mazeUiManager.collectItem(item, items[index]);
         return true;
     }
 }

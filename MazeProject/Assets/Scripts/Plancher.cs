@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Caillou : MonoBehaviour
+public class Plancher : MonoBehaviour
 {
-    [SerializeField]
-    private Texture caillouImage;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -15,11 +12,6 @@ public class Caillou : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
     {
         
     }

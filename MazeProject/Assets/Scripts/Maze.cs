@@ -18,6 +18,9 @@ public class Maze : MonoBehaviour
     private Hammer hammer; //pour appeler la preFab hammer
 
     [SerializeField]
+    private Planche planche; //pour appeler la preFab planche
+
+    [SerializeField]
     private HalfWall halfWall; //pour appeler la preFab halfWall
 
     [SerializeField]
@@ -86,6 +89,11 @@ public class Maze : MonoBehaviour
 
         generationMaze(startX, startZ, 0);
         addEntreeSortie();
+
+        // Grille contenant les valeur de pas (bloc d'entrée=0, bloc de sortie=nombreMinimumDePasPourFinirLabyrinthe)
+        grillePathNumber = new int[taille,taille];
+
+        mazePathNumber(xEntree,0,1);
         removeTorchEntreeSortie();
         addPlayer();
         addHoles();
@@ -93,10 +101,8 @@ public class Maze : MonoBehaviour
         addKeys();
         addHammers();
 
-        // Grille contenant les valeur de pas (bloc d'entrée=0, bloc de sortie=nombreMinimumDePasPourFinirLabyrinthe)
-        grillePathNumber = new int[taille,taille];
-        mazePathNumber(xEntree,0,1);
-        // affMazePathNumber();
+
+        affMazePathNumber();
     }
 
     // Update is called once per frame
@@ -125,13 +131,13 @@ public class Maze : MonoBehaviour
 
             switch (direction)
             {
-                case 0: nextZ = z + 1; //Debug.Log("Nord z + 1: " + nextZ);
+                case 0: nextZ = z + 1; 
                         break; // Nord
-                case 1: nextX = x - 1; //Debug.Log("Ouest x - 1: " + nextX);
+                case 1: nextX = x - 1; 
                         break; // Ouest
-                case 2: nextZ = z - 1; //Debug.Log("Sud z - 1: " + nextZ);
+                case 2: nextZ = z - 1; 
                         break; // Sud
-                case 3: nextX = x + 1; //Debug.Log("Est x + 1: " + nextX);
+                case 3: nextX = x + 1; 
                         break; // Est
             }
 
@@ -172,7 +178,6 @@ public class Maze : MonoBehaviour
                     }
                 }
             }
-            Debug.Log(result);
         }   
     }
 
@@ -180,6 +185,7 @@ public class Maze : MonoBehaviour
     {
         grillePathNumber[x,y] = number;
 
+        // S'il n'y a pas de mur nord
         if(!grille[x,y].murNordIsActive())
         {
             if(y+1<taille && y+1 >= 0)
@@ -190,6 +196,7 @@ public class Maze : MonoBehaviour
                 }
             }
         }
+        // S'il n'y a pas de mur est
         if(!grille[x,y].murEstIsActive())
         {
             if(x+1<taille && x+1 >= 0)
@@ -200,6 +207,7 @@ public class Maze : MonoBehaviour
                 }
             }
         }
+        // S'il n'y a pas de mur sud
         if(!grille[x,y].murSudIsActive())
         {
             if(y-1<taille && y-1 >= 0)
@@ -210,6 +218,7 @@ public class Maze : MonoBehaviour
                 }
             }
         }
+        // S'il n'y a pas de mur ouest
         if(!grille[x,y].murOuestIsActive())
         {
             if(x-1<taille && x-1 >= 0)
@@ -365,7 +374,7 @@ public class Maze : MonoBehaviour
         int holeX, holeZ;
 
         // Nombre de demi-murs -> taille / 8 (entier le plus proche)
-        int numberOfHolesInMap = (int)Mathf.RoundToInt(taille / 7);
+        int numberOfHolesInMap = (int)Mathf.RoundToInt(taille / 4);
         bool positionOK = false;
 
         holeX = random.Next(0, taille - 1);
@@ -383,6 +392,7 @@ public class Maze : MonoBehaviour
                 {
                     Bloc blocConcerne = grille[holeX,holeZ];
                     blocConcerne.RemoveSol();
+                    addPlanche(grillePathNumber[holeX,holeZ]);
                     positionOK = true;
                 }
                 else
@@ -391,6 +401,32 @@ public class Maze : MonoBehaviour
                     holeZ = random.Next(0, taille - 1);
                 }
             }
+        }
+    }
+
+    // Apparition d'une planche
+    public void addPlanche(int indiceBloc)
+    {
+        int plancheX, plancheZ;
+
+        int numberOfPlancheForHole = 3;
+
+        plancheX = random.Next(0, taille - 1);
+        plancheZ = random.Next(0, taille - 1);
+
+        for(int i=0;i<numberOfPlancheForHole;i++)
+        {
+            // On cherche une position pour la clé
+            while (grillePathNumber[plancheX,plancheZ] >= indiceBloc || !grille[plancheX,plancheZ].solIsActive() || grille[plancheX,plancheZ].GetComponentInChildren<Planche>() || grille[plancheX,plancheZ].GetComponentInChildren<Key>() || grille[plancheX,plancheZ].GetComponentInChildren<Hammer>() || (plancheX == xEntree && plancheZ == 0) || (plancheX == xSortie && (plancheZ == taille-1)))
+            {
+                plancheX = random.Next(0, taille - 1);
+                plancheZ = random.Next(0, taille - 1);
+            }
+
+            Quaternion rotation = Quaternion.Euler(0, random.Next(0, 360), 0);     
+            Planche instPlanche = Instantiate(planche, new Vector3((plancheX * 2)- (float)0.5, (float)0.0, (plancheZ * 2)), rotation);
+
+            instPlanche.transform.SetParent(grille[plancheX,plancheZ].transform);
         }
     }
 
@@ -469,7 +505,7 @@ public class Maze : MonoBehaviour
         for (int i = 0; i < numberOfKeysInMap; i++)
         {
             // On cherche une position pour la clé
-            while (grille[keyX,keyZ].GetComponentInChildren<Key>() || grille[keyX,keyZ].GetComponentInChildren<Hammer>() || keyX == xEntree || keyX == xSortie)
+            while (grille[keyX,keyZ].GetComponentInChildren<Planche>() || grille[keyX,keyZ].GetComponentInChildren<Key>() || grille[keyX,keyZ].GetComponentInChildren<Hammer>() || keyX == xEntree || keyX == xSortie)
             {
                 keyX = random.Next(0, taille - 1);
                 keyZ = random.Next(0, taille - 1);
@@ -488,7 +524,7 @@ public class Maze : MonoBehaviour
         int hammerX, hammerZ;
 
         // Nombre de marteaux -> taille / 10 (entier le plus proche)
-        int numberOfHammersInMap = (int)Mathf.RoundToInt(taille / 5);
+        int numberOfHammersInMap = (int)Mathf.RoundToInt(taille / 3);
 
         hammerX = random.Next(0, taille - 1);
         hammerZ = random.Next(0, taille - 1);
@@ -497,7 +533,7 @@ public class Maze : MonoBehaviour
         for (int i = 0; i < numberOfHammersInMap; i++)
         {
             // On cherche une nouvelle position pour le marteau
-            while (grille[hammerX,hammerZ].GetComponentInChildren<Key>() || grille[hammerX,hammerZ].GetComponentInChildren<Hammer>() || hammerX == xEntree || hammerX == xSortie)
+            while (grille[hammerX,hammerZ].GetComponentInChildren<Planche>() || grille[hammerX,hammerZ].GetComponentInChildren<Key>() || grille[hammerX,hammerZ].GetComponentInChildren<Hammer>() || hammerX == xEntree || hammerX == xSortie)
             {
                 hammerX = random.Next(0, taille - 1);
                 hammerZ = random.Next(0, taille - 1);

@@ -268,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e249902c5ca7cfc46802d2ec115459b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plancher: {fileID: 3045616357298435868, guid: 06b57ac8ac28345b785a58049d923c34, type: 3}
   murNord: {fileID: 3589179311656784256}
   murSud: {fileID: 3614885969015721202}
   murOuest: {fileID: 7541539670828916850}

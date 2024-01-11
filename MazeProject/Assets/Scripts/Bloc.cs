@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Bloc : MonoBehaviour
 {
-    
+    [SerializeField]
+
+    private Plancher plancher;
     [SerializeField]
     private GameObject murNord;
 
@@ -58,6 +60,11 @@ public class Bloc : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public string showProperties()
+    {
+        return "MurNord: " + this.murNordIsActive() + ",MurSud: " + this.murSudIsActive() + ",MurOuest:" + this.murOuestIsActive() + ",MurEst:" + this.murEstIsActive() + ",Sol:" + this.solIsActive();
     }
 
     public GameObject getMurNord()
@@ -123,7 +130,14 @@ public class Bloc : MonoBehaviour
 
     public void RemoveSol()
     {
-        sol.SetActive(false);
+        // On désactive le meshrenderer pour que le joueur ne puisse pas voir le sol
+        sol.GetComponent<MeshRenderer>().enabled = false;
+        // sol.SetActive(false);
+        // On augmente la hauteur du collider pour que le joueur ne puisse pas passer a travers
+        BoxCollider collider = sol.GetComponent<BoxCollider>();
+        collider.size = new Vector3(collider.size.x, 10, collider.size.z);
+        // Plancher plancherInst = Instantiate(plancher, new Vector3(sol.transform.position.x + 0.45f, sol.transform.position.y + 0.2f, sol.transform.position.z + -0.05f), Quaternion.identity);
+        // plancherInst.transform.SetParent(sol.transform);
     }
 
     public void setCorner(bool nordOuest,bool nordEst,bool sudOuest,bool sudEst)
