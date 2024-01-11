@@ -221,6 +221,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: d5a185dff59cbce4c99d10fc393579b3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: af3a459872544f4479ed019f589f6c68, type: 2}
     - target: {fileID: 919132149155446097, guid: d5a185dff59cbce4c99d10fc393579b3, type: 3}
       propertyPath: m_Name
       value: pebble (1)
@@ -287,6 +291,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: d5a185dff59cbce4c99d10fc393579b3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: af3a459872544f4479ed019f589f6c68, type: 2}
     - target: {fileID: 919132149155446097, guid: d5a185dff59cbce4c99d10fc393579b3, type: 3}
       propertyPath: m_Name
       value: pebble
@@ -353,6 +361,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: d5a185dff59cbce4c99d10fc393579b3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: af3a459872544f4479ed019f589f6c68, type: 2}
     - target: {fileID: 919132149155446097, guid: d5a185dff59cbce4c99d10fc393579b3, type: 3}
       propertyPath: m_Name
       value: pebble (2)
