@@ -56,10 +56,11 @@ MonoBehaviour:
   moveSpeed: 2
   characterController: {fileID: 7599711338663017069}
   mazeUiManager: {fileID: 0}
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  items: 000000000000000000000000
+  nbCailloux: 10
+  hammerKey: 0
+  caillouKey: 1
+  plancheKey: 2
   collectKeySound: {fileID: 8300000, guid: 0cf77485e78c52b498b97b75b8fc756c, type: 3}
   footstepsSound1: {fileID: 8300000, guid: 1369c3dfa9b0b7c4bb7bf4a0952a78b7, type: 3}
   footstepsSound2: {fileID: 8300000, guid: c4dd3ac063be9b348a9ca39fc18aa362, type: 3}
@@ -85,7 +86,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 0.4
-  m_Radius: 0.4
+  m_Radius: 0.43
   m_SlopeLimit: 45
   m_StepOffset: 0.1
   m_SkinWidth: 0.08
