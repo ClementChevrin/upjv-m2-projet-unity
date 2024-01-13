@@ -60,6 +60,13 @@ public class MazeUIManager : MonoBehaviour
 
     [SerializeField]
     private Plancher plancher;
+
+    public Text pauseText;
+
+    public Button boutonMenuPrincipal;
+    public Button boutonQuitter;
+    private bool isPaused = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +87,10 @@ public class MazeUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePauseMenu();
+        }
     }
 
     public void UpdateKeyCount(int keysCollected, int totalKeys)
@@ -245,5 +255,42 @@ public class MazeUIManager : MonoBehaviour
         marteauNb.GetComponent<Text>().text = itemsNb[0].ToString();
         caillouNb.GetComponent<Text>().text = itemsNb[1].ToString();
         plancheNb.GetComponent<Text>().text = itemsNb[2].ToString();
+    }
+
+    public void TogglePauseMenu()
+    {
+        isPaused = !isPaused;
+        pauseText.gameObject.SetActive(isPaused);
+        boutonMenuPrincipal.gameObject.SetActive(isPaused);
+        boutonQuitter.gameObject.SetActive(isPaused);
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f; // Mettre en pause le temps
+            Cursor.lockState = CursorLockMode.None; // Déverrouiller le curseur
+            Cursor.visible = true; // Rendre le curseur visible
+        }
+        else
+        {
+            Time.timeScale = 1f; // Reprise du temps
+            Cursor.lockState = CursorLockMode.Locked; // Verrouiller le curseur
+            Cursor.visible = false; // Rendre le curseur invisible
+        }
+    }
+
+    public void MenuPrincipal()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
+    public void Quitter()
+    {
+        #if UNITY_EDITOR
+            // Code sp�cifique � l'�diteur Unity (par exemple, arr�ter le mode de lecture dans l'�diteur).
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Code sp�cifique � une version autonome (par exemple, build pour Windows, Mac, Linux).
+            Application.Quit();
+        #endif
     }
 }

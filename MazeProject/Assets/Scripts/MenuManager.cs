@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour
         else
         {
             // Afficher un message d'erreur ou prendre une autre action appropri�e.
-            Debug.LogError("La taille du labyrinthe doit �tre entre 10 et 30.");
+            Debug.LogError("La taille du labyrinthe doit �tre entre 10 et 50.");
         }
     }
 
