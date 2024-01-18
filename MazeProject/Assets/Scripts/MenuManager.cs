@@ -22,6 +22,11 @@ public class MenuManager : MonoBehaviour
     public Text nbClesAffiche;
     private int nbCles = 3;
 
+    public Button texteNbCailloux;
+    public Slider sliderNbCailloux;
+    public Text nbCaillouxAffiche;
+    private int nbCailloux = 10;
+
     // Sons
     public AudioClip buttonClickSound;
 
@@ -37,6 +42,7 @@ public class MenuManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("tailleLabirynthe", tailleLabirynthe);
             PlayerPrefs.SetInt("nbCles", nbCles);
+            PlayerPrefs.SetInt("nbCailloux", nbCailloux);
             PlayerPrefs.Save();
             // Charger la sc�ne avec la taille du labyrinthe s�lectionn�e.
             SceneManager.LoadScene("MazeScene");
@@ -58,6 +64,11 @@ public class MenuManager : MonoBehaviour
         return (int)sliderNbCles.value;
     }
 
+    private int GetNbCailloux()
+    {
+        return (int)sliderNbCailloux.value;
+    }
+
     public void Awake() 
     {
         audioSource = GetComponent<AudioSource>();
@@ -70,8 +81,10 @@ public class MenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString() + " blocs";
         nbClesAffiche.text = GetNbCles().ToString() + " clés";
+        nbCaillouxAffiche.text = GetNbCailloux().ToString() + " cailloux";
         sliderNbCles.onValueChanged.AddListener(delegate { nbClesAffiche.text = GetNbCles().ToString() + " clés"; });
         sliderTailleLabirynthe.onValueChanged.AddListener(delegate { tailleLabiryntheTexte.text = GetTailleLabirynthe().ToString() + " blocs"; });
+        sliderNbCailloux.onValueChanged.AddListener(delegate { nbCaillouxAffiche.text = GetNbCailloux().ToString() + " cailloux"; });
     }
 
     public void Update()
@@ -92,6 +105,7 @@ public class MenuManager : MonoBehaviour
         // Enregistrer la nouvelle taille du labyrinthe et le nombre de cles puis retour au menu.
         tailleLabirynthe = GetTailleLabirynthe();
         nbCles = GetNbCles();
+        nbCailloux = GetNbCailloux();
         ToggleParametres(true);
     }
 
@@ -108,6 +122,9 @@ public class MenuManager : MonoBehaviour
         texteNbCles.gameObject.SetActive(!menuParametres);
         nbClesAffiche.gameObject.SetActive(!menuParametres);
         sliderNbCles.gameObject.SetActive(!menuParametres);
+        sliderNbCailloux.gameObject.SetActive(!menuParametres);
+        nbCaillouxAffiche.gameObject.SetActive(!menuParametres);
+        texteNbCailloux.gameObject.SetActive(!menuParametres);
     }
     /**
      * Clic sur le bouton de quitter

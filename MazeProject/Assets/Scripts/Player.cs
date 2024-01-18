@@ -283,4 +283,8 @@ public class Player : MonoBehaviour
         mazeUiManager.collectItem(item, items[index]);
         return true;
     }
+
+    public void setNbCailloux(int nb) {
+        nbCailloux = nb;
+    }
 }

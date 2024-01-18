@@ -34,6 +34,8 @@ public class MazeUIManager : MonoBehaviour
     [SerializeField]
     public AudioClip plancheSound;
 
+    [SerializeField]
+    public AudioClip BoutonSound;
     private AudioSource audioSource;
     private int selectedItem = 1;
 
@@ -223,7 +225,7 @@ public class MazeUIManager : MonoBehaviour
                 float maxRaycastDistance = 1.5f;
                 if (Physics.Raycast(cameraPosition, cameraDir, out hit, maxRaycastDistance)) {
                     Vector3 position = hit.point;
-                    position.y = 0;
+                    position.y = 0.05f;
                     Caillou caillouInst = Instantiate(caillou, position, Quaternion.identity);
                     if (audioSource != null) {
                         audioSource.PlayOneShot(caillouSound);
@@ -280,11 +282,18 @@ public class MazeUIManager : MonoBehaviour
 
     public void MenuPrincipal()
     {
+        if (audioSource != null) {
+            audioSource.PlayOneShot(BoutonSound);
+        }
+        
         SceneManager.LoadScene("MenuScene");
     }
 
     public void Quitter()
     {
+        if (audioSource != null) {
+            audioSource.PlayOneShot(BoutonSound);
+        }
         #if UNITY_EDITOR
             // Code sp�cifique � l'�diteur Unity (par exemple, arr�ter le mode de lecture dans l'�diteur).
             UnityEditor.EditorApplication.isPlaying = false;

@@ -42,6 +42,7 @@ public class Maze : MonoBehaviour
     private int taille = 20;
 
     private int numberOfKeys = 3;
+    private int numberOfCailloux = 10;
 
     private Bloc[,] grille;
 
@@ -71,6 +72,7 @@ public class Maze : MonoBehaviour
 
         taille = PlayerPrefs.GetInt("tailleLabirynthe", 20);
         numberOfKeys = PlayerPrefs.GetInt("nbCles", 3);
+        numberOfCailloux = PlayerPrefs.GetInt("nbCailloux", 10);
         //On cr�e la grille et on la remplie de la prefab Bloc
         grille = new Bloc[taille, taille];
         for (int x = 0; x < taille; ++x)
@@ -361,6 +363,7 @@ public class Maze : MonoBehaviour
     public void addPlayer()
     {
         Player j = Instantiate(joueur, new Vector3((xEntree * 2) - (float)0.5, (float)0.6, -4), Quaternion.identity);
+        j.setNbCailloux(numberOfCailloux);
         j.transform.SetParent(this.transform);
     }
 
